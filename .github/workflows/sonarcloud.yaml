@@ -10,8 +10,6 @@ jobs:
       - uses: actions/checkout@v3
         with:
            fetch-depth: 0
-      - name: Change directory to Python folder
-        run: cd lambdas_back-main
       - name: SonarCloud scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
@@ -21,5 +19,5 @@ jobs:
           args: >
             -Dsonar.organization=backend1
             -Dsonar.projectKey=abrahamramirezT_lambdas_back
-            -Dsonar.sources=.
-            -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.sources=lambdas_back-main
+            -Dsonar.python.coverage.reportPaths=lambdas_back-main/coverage.xml
