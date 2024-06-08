@@ -18,5 +18,5 @@ jobs:
         with:
           args: >
             -Dsonar.organization=backend1
-            -Dsonar.projectKey=SonarCloudCodeAnalyisis
+            -Dsonar.projectKey=abrahamramirezT_lambdas_back
             -Dsonar.python.coverage.reportPaths=coverage.xml
