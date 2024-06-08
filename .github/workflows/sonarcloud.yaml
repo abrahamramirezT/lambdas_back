@@ -19,4 +19,6 @@ jobs:
           args: >
             -Dsonar.organization=backend1
             -Dsonar.projectKey=abrahamramirezT_lambdas_back
+            -Dsonar.sources=.
+            -Dsonar.exclusions=**/*.html,**/*.css,**/*.js
             -Dsonar.python.coverage.reportPaths=coverage.xml
