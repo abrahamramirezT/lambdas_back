@@ -1,0 +1,84 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  incidenciaIntegradora9A
+
+Globals:
+  Function:
+    Timeout: 3
+    Runtime: python3.11
+    Architectures:
+      - x86_64
+
+Resources:
+  CreateUserFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: lambda/user_management/create_user/
+      Handler: app.lambda_handler
+      Events:
+        CreateUser:
+          Type: Api
+          Properties:
+            Path: /create_user
+            Method: post
+      Environment:
+        Variables:
+          RDS_HOST: "incidencias.cn8kyuice19b.us-east-1.rds.amazonaws.com"
+          RDS_USER: "admin"
+          RDS_PASSWORD: "admin123"
+          RDS_DB: "incidencias"
+
+  DeleteUserFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: lambda/user_management/delete_user/
+      Handler: app.lambda_handler
+      Events:
+        DeleteUser:
+          Type: Api
+          Properties:
+            Path: /delete_user/{user_id}
+            Method: delete
+      Environment:
+        Variables:
+          RDS_HOST: "incidencias.cn8kyuice19b.us-east-1.rds.amazonaws.com"
+          RDS_USER: "admin"
+          RDS_PASSWORD: "admin123"
+          RDS_DB: "incidencias"
+
+  ReadUserFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: lambda/user_management/read_user/
+      Handler: app.lambda_handler
+      Events:
+        GetUser:
+          Type: Api
+          Properties:
+            Path: /read_user/{user_id}
+            Method: get
+      Environment:
+        Variables:
+          RDS_HOST: "incidencias.cn8kyuice19b.us-east-1.rds.amazonaws.com"
+          RDS_USER: "admin"
+          RDS_PASSWORD: "admin123"
+          RDS_DB: "incidencias"
+
+  UpdateUserFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: lambda/user_management/update_user/
+      Handler: app.lambda_handler
+      Events:
+        UpdateUser:
+          Type: Api
+          Properties:
+            Path: /update_user
+            Method: put
+      Environment:
+        Variables:
+          RDS_HOST: "incidencias.cn8kyuice19b.us-east-1.rds.amazonaws.com"
+          RDS_USER: "admin"
+          RDS_PASSWORD: "admin123"
+          RDS_DB: "incidencias"
