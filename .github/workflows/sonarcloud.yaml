@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   sonarcloud:
@@ -27,6 +24,15 @@ jobs:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
 
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          python -m unittest discover
+
       - name: Run SonarCloud analysis
         uses: sonarsource/sonarcloud-github-action@v1
         with:
@@ -34,7 +40,7 @@ jobs:
           token: ${{ secrets.SONAR_TOKEN }}
           scannerVersion: '4.4.0.2170'
           extraProperties: |
-            sonar.sources= C:\Users\DesktopPecha\Documents\LambdaBack\lambdas_back-main\sonarcloud.yaml
+            sonar.sources=.
             sonar.exclusions=**/__pycache__/**,**/*.pyc
             sonar.language=py
             sonar.python.version=3.11
