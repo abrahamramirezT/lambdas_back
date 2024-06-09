@@ -37,15 +37,6 @@ manifest_hash = "75d541788b28f51c3ef626360287adf2"
 packagetype = "Zip"
 functions = ["UpdateUserFunction"]
 
-[function_build_definitions.a7d24212-439a-426b-832a-c099b0fb7f2b]
-codeuri = "C:\\Users\\DesktopPecha\\Documents\\LambdaBack\\lambdas_back-main\\lambda\\admin_management\\create_admin"
-runtime = "python3.11"
-architecture = "x86_64"
-handler = "app.lambda_handler"
-manifest_hash = "75d541788b28f51c3ef626360287adf2"
-packagetype = "Zip"
-functions = ["CreateAdminFunction"]
-
 [function_build_definitions.96e5a5b3-3314-4458-bcee-3d5b6883a42e]
 codeuri = "C:\\Users\\DesktopPecha\\Documents\\LambdaBack\\lambdas_back-main\\lambda\\admin_management\\delete_admin"
 runtime = "python3.11"
@@ -63,24 +54,6 @@ handler = "app.lambda_handler"
 manifest_hash = "75d541788b28f51c3ef626360287adf2"
 packagetype = "Zip"
 functions = ["ReadAdminFunction"]
-
-[function_build_definitions.5f305ac5-336f-4e30-a256-4e099108b64a]
-codeuri = "C:\\Users\\DesktopPecha\\Documents\\LambdaBack\\lambdas_back-main\\lambda\\admin_management\\update_admin"
-runtime = "python3.11"
-architecture = "x86_64"
-handler = "app.lambda_handler"
-manifest_hash = "75d541788b28f51c3ef626360287adf2"
-packagetype = "Zip"
-functions = ["UpdateAdminFunction"]
-
-[function_build_definitions.7cf8d736-fbaa-439c-9bab-77f14337b69d]
-codeuri = "C:\\Users\\DesktopPecha\\Documents\\LambdaBack\\lambdas_back-main\\lambda\\admin_management\\read_admin_all"
-runtime = "python3.11"
-architecture = "x86_64"
-handler = "app.lambda_handler"
-manifest_hash = "75d541788b28f51c3ef626360287adf2"
-packagetype = "Zip"
-functions = ["ReadAllAdminFunction"]
 
 [function_build_definitions.cfc9be13-b1ec-4548-bd5c-67be2235bf4e]
 codeuri = "C:\\Users\\DesktopPecha\\Documents\\LambdaBack\\lambdas_back-main\\lambda\\pf_management\\read_pf_all"
