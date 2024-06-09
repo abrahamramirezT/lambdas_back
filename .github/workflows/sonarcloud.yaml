@@ -1,78 +1,94 @@
-name: "SonarCloud_Git_Actions"
+name: SonarCloud_Git_Actions
 
 on:
   push:
+    branches:
+      - main
 
 jobs:
-  build:
+  sonarcloud:
+    name: SonarCloud Scan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
         with:
-           fetch-depth: 0
+          fetch-depth: 0
+
       - name: SonarCloud scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
-          SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
             -Dsonar.organization=backend1
             -Dsonar.projectKey=abrahamramirezT_lambdas_back
             -Dsonar.sources=lambdas_back-main
             -Dsonar.python.coverage.reportPaths=lambdas_back-main/coverage.
-            
+
   deploy:
     name: Deploy to AWS
     runs-on: ubuntu-latest
     needs: sonarcloud
-    if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }} # Solo despliega en push a la rama main
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.11'
+
       - name: Install dependencies for create_user
         run: |
           cd lambda/user_management/create_user/
           pip install -r requirements.txt
+
       - name: Install dependencies for delete_user
         run: |
           cd lambda/user_management/delete_user/
           pip install -r requirements.txt
+
       - name: Install dependencies for read_user
         run: |
           cd lambda/user_management/read_user/
           pip install -r requirements.txt
+
       - name: Install dependencies for update_user
         run: |
           cd lambda/user_management/update_user/
           pip install -r requirements.txt
+
       - name: Install dependencies for read_users_all
         run: |
           cd lambda/user_management/read_users_all/
           pip install -r requirements.txt
-       - name: Install dependencies for delete_admin
+
+      - name: Install dependencies for delete_admin
         run: |
           cd lambda/admin_management/delete_admin/
           pip install -r requirements.txt
-       - name: Install dependencies for read_admin
+
+      - name: Install dependencies for read_admin
         run: |
           cd lambda/admin_management/read_admin/
           pip install -r requirements.txt
-       - name: Install dependencies for read_pf_all
+
+      - name: Install dependencies for read_pf_all
         run: |
           cd lambda/pf_management/read_pf_all/
           pip install -r requirements.txt
+
       - name: Install dependencies for update_pf
         run: |
           cd lambda/pf_management/update_pf/
           pip install -r requirements.txt
+
       - name: Install dependencies for create_usuario
         run: |
           cd lambda/usuarios_management/create_usuario/
@@ -82,13 +98,16 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y awscli
+
       - name: Install SAM CLI
         run: |
           pip install aws-sam-cli
+
       - name: Build SAM application
         run: sam build
+
       - name: Deploy SAM application
-        run: sam deploy 
+        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name utez --capabilities CAPABILITY_IAM
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
