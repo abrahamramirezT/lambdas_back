@@ -1,6 +1,0 @@
-sonarcloud:
-  projectKey: abrahamramirezT_lambdas_back
-  token:
-    secure: ${{ secrets.SONAR_TOKEN }}
-  scanner:
-    version: 4.4.0.2170
