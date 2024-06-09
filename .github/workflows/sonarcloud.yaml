@@ -1,7 +1,7 @@
 name: "SonarCloud_Git_Actions"
 
 on:
-  workflow_dispatch:
+  push:
 
 jobs:
   build:
