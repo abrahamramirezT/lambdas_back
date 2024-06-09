@@ -20,4 +20,76 @@ jobs:
             -Dsonar.organization=backend1
             -Dsonar.projectKey=abrahamramirezT_lambdas_back
             -Dsonar.sources=lambdas_back-main
-            -Dsonar.python.coverage.reportPaths=lambdas_back-main/coverage.xml
+            -Dsonar.python.coverage.reportPaths=lambdas_back-main/coverage.
+            
+  deploy:
+    name: Deploy to AWS
+    runs-on: ubuntu-latest
+    needs: sonarcloud
+    if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+      - name: Install dependencies for create_user
+        run: |
+          cd lambda/user_management/create_user/
+          pip install -r requirements.txt
+      - name: Install dependencies for delete_user
+        run: |
+          cd lambda/user_management/delete_user/
+          pip install -r requirements.txt
+      - name: Install dependencies for read_user
+        run: |
+          cd lambda/user_management/read_user/
+          pip install -r requirements.txt
+      - name: Install dependencies for update_user
+        run: |
+          cd lambda/user_management/update_user/
+          pip install -r requirements.txt
+      - name: Install dependencies for read_users_all
+        run: |
+          cd lambda/user_management/read_users_all/
+          pip install -r requirements.txt
+       - name: Install dependencies for delete_admin
+        run: |
+          cd lambda/admin_management/delete_admin/
+          pip install -r requirements.txt
+       - name: Install dependencies for read_admin
+        run: |
+          cd lambda/admin_management/read_admin/
+          pip install -r requirements.txt
+       - name: Install dependencies for read_pf_all
+        run: |
+          cd lambda/pf_management/read_pf_all/
+          pip install -r requirements.txt
+      - name: Install dependencies for update_pf
+        run: |
+          cd lambda/pf_management/update_pf/
+          pip install -r requirements.txt
+      - name: Install dependencies for create_usuario
+        run: |
+          cd lambda/usuarios_management/create_usuario/
+          pip install -r requirements.txt
+
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y awscli
+      - name: Install SAM CLI
+        run: |
+          pip install aws-sam-cli
+      - name: Build SAM application
+        run: sam build
+      - name: Deploy SAM application
+        run: sam deploy 
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
