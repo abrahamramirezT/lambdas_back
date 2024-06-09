@@ -46,52 +46,52 @@ jobs:
 
       - name: Install dependencies for create_user
         run: |
-          cd lambda/user_management/create_user/
+          cd lambda/user_management/create_user
           pip install -r requirements.txt
 
       - name: Install dependencies for delete_user
         run: |
-          cd lambda/user_management/delete_user/
+          cd lambda/user_management/delete_user
           pip install -r requirements.txt
 
       - name: Install dependencies for read_user
         run: |
-          cd lambda/user_management/read_user/
+          cd lambda/user_management/read_user
           pip install -r requirements.txt
 
       - name: Install dependencies for update_user
         run: |
-          cd lambda/user_management/update_user/
+          cd lambda/user_management/update_user
           pip install -r requirements.txt
 
       - name: Install dependencies for read_users_all
         run: |
-          cd lambda/user_management/read_users_all/
+          cd lambda/user_management/read_users_all
           pip install -r requirements.txt
 
       - name: Install dependencies for delete_admin
         run: |
-          cd lambda/admin_management/delete_admin/
+          cd lambda/admin_management/delete_admin
           pip install -r requirements.txt
 
       - name: Install dependencies for read_admin
-        run: |
-          cd lambda/admin_management/read_admin/
+        run: 
+          cd lambda/admin_management/read_admin
           pip install -r requirements.txt
 
       - name: Install dependencies for read_pf_all
         run: |
-          cd lambda/pf_management/read_pf_all/
+          cd lambda/pf_management/read_pf_all
           pip install -r requirements.txt
 
       - name: Install dependencies for update_pf
         run: |
-          cd lambda/pf_management/update_pf/
+          cd lambda/pf_management/update_pf
           pip install -r requirements.txt
 
       - name: Install dependencies for create_usuario
         run: |
-          cd lambda/usuarios_management/create_usuario/
+          cd lambda/usuarios_management/create_usuario
           pip install -r requirements.txt
 
       - name: Install AWS CLI
