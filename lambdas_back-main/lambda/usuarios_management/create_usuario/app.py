@@ -1,6 +1,12 @@
 import json
 import os
 import mysql.connector
+from mysql.connector import Error
+import logging
+
+# Configuración del logger
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 def lambda_handler(event, context):
     try:
@@ -28,23 +34,32 @@ def lambda_handler(event, context):
         connection.commit()
 
         return {
-            'statusCode': 200,
+            'statusCode': 201,
             'body': json.dumps('Incidencia creada exitosamente')
         }
-    except KeyError:
+    except KeyError as e:
+        logger.error(f"Faltan parámetros requeridos en la solicitud: {str(e)}")
         return {
             'statusCode': 400,
-            'body': json.dumps('Bad request. Missing required parameters.')
+            'body': json.dumps({'error': 'Solicitud incorrecta. Faltan parámetros requeridos.'})
         }
-    except mysql.connector.Error as err:
+    except Error as e:
+        logger.error(f"Error de base de datos: {str(e)}")
         return {
             'statusCode': 500,
-            'body': json.dumps(f"Database error: {str(err)}")
+            'body': json.dumps({'error': 'Error de base de datos'})
+        }
+    except json.JSONDecodeError as e:
+        logger.error(f"Error al decodificar JSON: {str(e)}")
+        return {
+            'statusCode': 400,
+            'body': json.dumps({'error': 'Solicitud incorrecta. El cuerpo debe ser un JSON válido.'})
         }
     except Exception as e:
+        logger.error(f"Error inesperado: {str(e)}")
         return {
             'statusCode': 500,
-            'body': json.dumps(f"Error: {str(e)}")
+            'body': json.dumps({'error': 'Error inesperado'})
         }
     finally:
         if 'connection' in locals():

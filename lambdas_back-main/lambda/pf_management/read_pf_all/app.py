@@ -1,7 +1,13 @@
 import json
 import os
 import mysql.connector
+from mysql.connector import Error
+import logging
 from datetime import date
+
+# Configuración del logger
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 def lambda_handler(event, context):
     # Obtener variables de entorno
@@ -10,15 +16,14 @@ def lambda_handler(event, context):
     db_password = os.environ['RDS_PASSWORD']
     db_name = os.environ['RDS_DB']
 
-    # Conexión a la base de datos
     try:
+        # Conexión a la base de datos
         connection = mysql.connector.connect(
             host=db_host,
             user=db_user,
             password=db_password,
             database=db_name
         )
-
         cursor = connection.cursor()
 
         sql = "SELECT * FROM reportes_incidencias"
@@ -45,12 +50,25 @@ def lambda_handler(event, context):
         else:
             return {
                 'statusCode': 404,
-                'body': json.dumps('No se encontraron reportes')
+                'body': json.dumps({'error': 'No se encontraron reportes'})
             }
-    except Exception as e:
+    except Error as e:
+        logger.error(f"Error de base de datos: {str(e)}")
         return {
             'statusCode': 500,
-            'body': json.dumps(f"Error: {str(e)}")
+            'body': json.dumps({'error': 'Error de base de datos'})
+        }
+    except KeyError as e:
+        logger.error(f"Clave faltante en el evento: {str(e)}")
+        return {
+            'statusCode': 400,
+            'body': json.dumps({'error': f"Clave faltante en el evento: {str(e)}"})
+        }
+    except Exception as e:
+        logger.error(f"Error inesperado: {str(e)}")
+        return {
+            'statusCode': 500,
+            'body': json.dumps({'error': 'Error inesperado'})
         }
     finally:
         if 'connection' in locals():

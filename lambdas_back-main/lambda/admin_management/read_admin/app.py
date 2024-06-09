@@ -1,6 +1,7 @@
 import json
 import os
 import mysql.connector
+from mysql.connector import Error
 from datetime import date
 
 def lambda_handler(event, context):
@@ -10,8 +11,8 @@ def lambda_handler(event, context):
     db_password = os.environ['RDS_PASSWORD']
     db_name = os.environ['RDS_DB']
 
-    # Conexión a la base de datos
     try:
+        # Conexión a la base de datos
         connection = mysql.connector.connect(
             host=db_host,
             user=db_user,
@@ -35,7 +36,6 @@ def lambda_handler(event, context):
                 'fecha': reporte_date_joined_str,
                 'descripcion': admin[2],
                 'status': admin[3],
-
             }
             return {
                 'statusCode': 200,
@@ -44,12 +44,25 @@ def lambda_handler(event, context):
         else:
             return {
                 'statusCode': 404,
-                'body': json.dumps('Reporte no encontrado')
+                'body': json.dumps({'error': 'Reporte no encontrado'})
             }
-    except Exception as e:
+    except Error as e:
+        error_message = f"Error de conexión a la base de datos: {str(e)}"
         return {
             'statusCode': 500,
-            'body': json.dumps(f"Error: {str(e)}")
+            'body': json.dumps({'error': error_message})
+        }
+    except KeyError as e:
+        error_message = f"Falta la clave esperada en el evento: {str(e)}"
+        return {
+            'statusCode': 400,
+            'body': json.dumps({'error': error_message})
+        }
+    except Exception as e:
+        error_message = f"Error inesperado: {str(e)}"
+        return {
+            'statusCode': 500,
+            'body': json.dumps({'error': error_message})
         }
     finally:
         if 'connection' in locals():
