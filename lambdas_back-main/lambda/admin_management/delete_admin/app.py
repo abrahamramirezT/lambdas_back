@@ -37,7 +37,7 @@ def lambda_handler(event, context):
     except KeyError:
         return {
             'statusCode': 400,
-            'body': json.dumps('Bad request. Missing required parametros.')
+            'body': json.dumps('Bad request. Missing required parameters.')
         }
     except mysql.connector.Error as err:
         return {
