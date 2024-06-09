@@ -1,40 +1,23 @@
-name: SonarCloud
+name: "SonarCloud_Git_Actions"
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  sonarcloud:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
+      - uses: actions/checkout@v3
         with:
-          java-version: '11'
-
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v2
+           fetch-depth: 0
+      - name: SonarCloud scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+          SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
         with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-
-      - name: Run SonarCloud analysis
-        uses: sonarsource/sonarcloud-github-action@v1
-        with:
-          projectKey: abrahamramirezT_lambdas_back
-          token: ${{ secrets.SONAR_TOKEN }}
-          scannerVersion: '4.4.0.2170'
-          extraProperties: |
-            sonar.sources= C:\Users\DesktopPecha\Documents\LambdaBack\lambdas_back-main\sonarcloud.yaml
-            sonar.exclusions=**/__pycache__/**,**/*.pyc
-            sonar.language=py
-            sonar.python.version=3.11
+          args: >
+            -Dsonar.organization=backend1
+            -Dsonar.projectKey=abrahamramirezT_lambdas_back
+            -Dsonar.sources=lambdas_back-main
+            -Dsonar.python.coverage.reportPaths=lambdas_back-main/coverage.xml
