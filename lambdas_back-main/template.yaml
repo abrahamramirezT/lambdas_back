@@ -82,3 +82,172 @@ Resources:
           RDS_USER: "admin"
           RDS_PASSWORD: "admin123"
           RDS_DB: "incidencias"
+
+  CreateAdminFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: lambda/admin_management/create_admin/
+      Handler: app.lambda_handler
+      Events:
+        CreateUser:
+          Type: Api
+          Properties:
+            Path: /create_admin_reportes
+            Method: post
+      Environment:
+        Variables:
+          RDS_HOST: "incidencias.cn8kyuice19b.us-east-1.rds.amazonaws.com"
+          RDS_USER: "admin"
+          RDS_PASSWORD: "admin123"
+          RDS_DB: "incidencias"
+
+  DeleteAdminFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: lambda/admin_management/delete_admin/
+      Handler: app.lambda_handler
+      Events:
+        DeleteUser:
+          Type: Api
+          Properties:
+            Path: /delete_admin/{reporte_id}
+            Method: delete
+      Environment:
+        Variables:
+          RDS_HOST: "incidencias.cn8kyuice19b.us-east-1.rds.amazonaws.com"
+          RDS_USER: "admin"
+          RDS_PASSWORD: "admin123"
+          RDS_DB: "incidencias"
+
+  ReadAdminFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: lambda/admin_management/read_admin/
+      Handler: app.lambda_handler
+      Events:
+        GetUser:
+          Type: Api
+          Properties:
+            Path: /read_admin/{reporte_id}
+            Method: get
+      Environment:
+        Variables:
+          RDS_HOST: "incidencias.cn8kyuice19b.us-east-1.rds.amazonaws.com"
+          RDS_USER: "admin"
+          RDS_PASSWORD: "admin123"
+          RDS_DB: "incidencias"
+
+  UpdateAdminFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: lambda/admin_management/update_admin/
+      Handler: app.lambda_handler
+      Events:
+        UpdateUser:
+          Type: Api
+          Properties:
+            Path: /update_admin_reportes
+            Method: put
+      Environment:
+        Variables:
+          RDS_HOST: "incidencias.cn8kyuice19b.us-east-1.rds.amazonaws.com"
+          RDS_USER: "admin"
+          RDS_PASSWORD: "admin123"
+          RDS_DB: "incidencias"
+
+  ReadAllAdminFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: lambda/admin_management/read_admin_all/
+      Handler: app.lambda_handler
+      Events:
+        UpdateUser:
+          Type: Api
+          Properties:
+            Path: /read_admin_all
+            Method: get
+      Environment:
+        Variables:
+          RDS_HOST: "incidencias.cn8kyuice19b.us-east-1.rds.amazonaws.com"
+          RDS_USER: "admin"
+          RDS_PASSWORD: "admin123"
+          RDS_DB: "incidencias"
+
+  ReadAllReportesFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: lambda/pf_management/read_pf_all/
+      Handler: app.lambda_handler
+      Events:
+        UpdateUser:
+          Type: Api
+          Properties:
+            Path: /read_all_reportes
+            Method: get
+      Environment:
+        Variables:
+          RDS_HOST: "incidencias.cn8kyuice19b.us-east-1.rds.amazonaws.com"
+          RDS_USER: "admin"
+          RDS_PASSWORD: "admin123"
+          RDS_DB: "incidencias"
+
+  ReadAllUsersFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: lambda/user_management/read_users_all/
+      Handler: app.lambda_handler
+      Events:
+        UpdateUser:
+          Type: Api
+          Properties:
+            Path: /read_users_all
+            Method: get
+      Environment:
+        Variables:
+          RDS_HOST: "incidencias.cn8kyuice19b.us-east-1.rds.amazonaws.com"
+          RDS_USER: "admin"
+          RDS_PASSWORD: "admin123"
+          RDS_DB: "incidencias"
+
+  UpdateFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: lambda/pf_management/update_pf/
+      Handler: app.lambda_handler
+      Events:
+        UpdateUser:
+          Type: Api
+          Properties:
+            Path: /update_pf_reporte
+            Method: put
+      Environment:
+        Variables:
+          RDS_HOST: "incidencias.cn8kyuice19b.us-east-1.rds.amazonaws.com"
+          RDS_USER: "admin"
+          RDS_PASSWORD: "admin123"
+          RDS_DB: "incidencias"
+
+  CreateReporteFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: lambda/usuarios_management/create_usuario/
+      Handler: app.lambda_handler
+      Events:
+        UpdateUser:
+          Type: Api
+          Properties:
+            Path: /post_usuario_reporte
+            Method: post
+      Environment:
+        Variables:
+          RDS_HOST: "incidencias.cn8kyuice19b.us-east-1.rds.amazonaws.com"
+          RDS_USER: "admin"
+          RDS_PASSWORD: "admin123"
+          RDS_DB: "incidencias"
+
+
+
+
+
+
+
