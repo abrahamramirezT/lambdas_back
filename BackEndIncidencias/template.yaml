@@ -1,0 +1,48 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  BackEndIncidencias
+
+Globals:
+  Function:
+    Timeout: 3
+    Runtime: python3.11
+    Architectures:
+      - x86_64
+
+Resources:
+  CreateIncidenceFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: create_incidence/
+      Handler: app.lambda_handler
+      Events:
+        CreateUser:
+          Type: Api
+          Properties:
+            Path: /create_incidence
+            Method: post
+      Environment:
+        Variables:
+          RDS_HOST: "incidencias.c9yu4m06ew0o.us-east-1.rds.amazonaws.com"
+          RDS_USER: "admin"
+          RDS_PASSWORD: "admin2003"
+          RDS_DB: "incidencias"
+
+  ReadOneIncidenceFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_admin/
+      Handler: app.lambda_handler
+      Events:
+        GetUser:
+          Type: Api
+          Properties:
+            Path: /read_one_incidence/{reporte_id}
+            Method: get
+      Environment:
+        Variables:
+          RDS_HOST: "incidencias.c9yu4m06ew0o.us-east-1.rds.amazonaws.com"
+          RDS_USER: "admin"
+          RDS_PASSWORD: "admin2003"
+          RDS_DB: "incidencias"
