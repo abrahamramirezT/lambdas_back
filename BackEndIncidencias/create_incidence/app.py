@@ -8,7 +8,8 @@ import logging
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-def lambda_handler(event, context):
+def lambda_handler(event, __):
+
     try:
         db_host = os.environ['RDS_HOST']
         db_user = os.environ['RDS_USER']
@@ -19,7 +20,7 @@ def lambda_handler(event, context):
             host=db_host,
             user=db_user,
             password=db_password,
-            database=db_name    
+            database=db_name
         )
 
         cursor = connection.cursor()
@@ -34,7 +35,7 @@ def lambda_handler(event, context):
         connection.commit()
 
         return {
-            'statusCode': 201,
+            'statusCode': 200,
             'body': json.dumps('Incidencia creada exitosamente')
         }
     except KeyError as e:

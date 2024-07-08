@@ -11,38 +11,105 @@ Globals:
       - x86_64
 
 Resources:
+
   CreateIncidenceFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
       CodeUri: create_incidence/
       Handler: app.lambda_handler
       Events:
-        CreateUser:
+        CreateIncidence:
           Type: Api
           Properties:
             Path: /create_incidence
             Method: post
       Environment:
         Variables:
-          RDS_HOST: "incidencias.c9yu4m06ew0o.us-east-1.rds.amazonaws.com"
+          RDS_HOST: "database-incidencias.cpm62yu6ezkc.us-east-1.rds.amazonaws.com"
           RDS_USER: "admin"
-          RDS_PASSWORD: "admin2003"
+          RDS_PASSWORD: "admin123"
           RDS_DB: "incidencias"
 
   ReadOneIncidenceFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
-      CodeUri: read_admin/
+      CodeUri: read_one_incidence/
       Handler: app.lambda_handler
       Events:
-        GetUser:
+        GetOneIncidence:
           Type: Api
           Properties:
             Path: /read_one_incidence/{reporte_id}
             Method: get
       Environment:
         Variables:
-          RDS_HOST: "incidencias.c9yu4m06ew0o.us-east-1.rds.amazonaws.com"
+          RDS_HOST: "database-incidencias.cpm62yu6ezkc.us-east-1.rds.amazonaws.com"
           RDS_USER: "admin"
-          RDS_PASSWORD: "admin2003"
+          RDS_PASSWORD: "admin123"
           RDS_DB: "incidencias"
+
+  ReadAllIncidenceFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_all_incidence/
+      Handler: app.lambda_handler
+      Events:
+        GetAllIncidence:
+          Type: Api
+          Properties:
+            Path: /read_all_incidence
+            Method: get
+      Environment:
+        Variables:
+          RDS_HOST: "database-incidencias.cpm62yu6ezkc.us-east-1.rds.amazonaws.com"
+          RDS_USER: "admin"
+          RDS_PASSWORD: "admin123"
+          RDS_DB: "incidencias"
+
+  UpdateIncidenceFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: update_incidence/
+      Handler: app.lambda_handler
+      Events:
+        UpdateIncidence:
+          Type: Api
+          Properties:
+            Path: /update_incidence/{reporte_id}
+            Method: put
+      Environment:
+        Variables:
+          RDS_HOST: "database-incidencias.cpm62yu6ezkc.us-east-1.rds.amazonaws.com"
+          RDS_USER: "admin"
+          RDS_PASSWORD: "admin123"
+          RDS_DB: "incidencias"
+
+  DeleteIncidenceFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: delete_incidence/
+      Handler: app.lambda_handler
+      Events:
+        UpdateIncidence:
+          Type: Api
+          Properties:
+            Path: /delete_incidence/{reporte_id}
+            Method: delete
+      Environment:
+        Variables:
+          RDS_HOST: "database-incidencias.cpm62yu6ezkc.us-east-1.rds.amazonaws.com"
+          RDS_USER: "admin"
+          RDS_PASSWORD: "admin123"
+          RDS_DB: "incidencias"
+
+  ChangesPasswordFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: set_password/
+      Handler: app.lambda_handler
+      Events:
+        UpdateIncidence:
+          Type: Api
+          Properties:
+            Path: /change_password
+            Method: post
