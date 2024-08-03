@@ -44,54 +44,39 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies for create_user
+      - name: Install dependencies for create_incidence
         run: |
-          cd lambdas_back-main/lambda/user_management/create_user/
+          cd create_incidence/
           pip install -r requirements.txt
 
-      - name: Install dependencies for delete_user
+      - name: Install dependencies for delete_incidence
         run: |
-          cd lambdas_back-main/lambda/user_management/delete_user/
+          cd delete_incidence/
           pip install -r requirements.txt
 
-      - name: Install dependencies for read_user
+      - name: Install dependencies for login
         run: |
-          cd lambdas_back-main/lambda/user_management/read_user/
+          cd login/
           pip install -r requirements.txt
 
-      - name: Install dependencies for update_user
+      - name: Install dependencies for read all incidence
         run: |
-          cd lambdas_back-main/lambda/user_management/update_user/
+          cd read_all_incidence/
           pip install -r requirements.txt
 
-      - name: Install dependencies for read_users_all
+      - name: Install dependencies for read one incidence
         run: |
-          cd lambdas_back-main/lambda/user_management/read_users_all/
+          cd read_one_incidence/
           pip install -r requirements.txt
 
-      - name: Install dependencies for delete_admin
+      - name: Install dependencies for set password
         run: |
-          cd lambdas_back-main/lambda/admin_management/delete_admin/
+          cd set_password/
           pip install -r requirements.txt
 
-      - name: Install dependencies for read_admin
+      - name: Install dependencies for update incidence
         run: |
-          cd lambdas_back-main/lambda/admin_management/read_admin/
-          pip install -r requirements.txt
-
-      - name: Install dependencies for read_pf_all
-        run: |
-          cd lambdas_back-main/lambda/pf_management/read_pf_all/
-          pip install -r requirements.txt
-
-      - name: Install dependencies for update_pf
-        run: |
-          cd lambdas_back-main/lambda/pf_management/update_pf/
-          pip install -r requirements.txt
-
-      - name: Install dependencies for create_usuario
-        run: |
-          cd lambdas_back-main/lambda/usuarios_management/create_usuario/
+          cd update_incidence/
           pip install -r requirements.txt
 
       - name: Install AWS CLI
@@ -104,7 +89,7 @@ jobs:
           pip install aws-sam-cli
 
       - name: Build SAM application
-        run: sam build -t lambdas_back-main/template.yaml
+        run: sam build -t template.yaml
 
       - name: Deploy SAM application
         run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name incidenciaIntegradora9A --capabilities CAPABILITY_IAM --resolve-s3

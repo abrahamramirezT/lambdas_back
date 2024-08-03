@@ -113,3 +113,15 @@ Resources:
           Properties:
             Path: /change_password
             Method: post
+
+  LoginFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: login/
+      Handler: app.lambda_handler
+      Events:
+        UpdateIncidence:
+          Type: Api
+          Properties:
+            Path: /login
+            Method: post
