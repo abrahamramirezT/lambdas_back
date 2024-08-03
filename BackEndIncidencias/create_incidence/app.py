@@ -8,7 +8,7 @@ import logging
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-def lambda_handler(event, __):
+def lambda_handler(event, context):
 
     try:
         db_host = os.environ['RDS_HOST']
@@ -25,19 +25,31 @@ def lambda_handler(event, __):
 
         cursor = connection.cursor()
 
+        # Cargar datos del evento
         data = json.loads(event['body'])
-        fecha = data['fecha']
-        descripcion = data['descripcion']
-        status = data['status']
+        titulo = data.get('titulo')
+        fecha = data.get('fecha')
+        descripcion = data.get('descripcion')
+        estatus = data.get('estatus')
+        fto_url = data.get('fto_url')  # Asegúrate de que la URL de la foto esté presente
 
-        sql = "INSERT INTO reportes_incidencias (fecha, descripcion, status) VALUES (%s, %s, %s)"
-        cursor.execute(sql, (fecha, descripcion, status))
+        # Validar que todos los campos necesarios estén presentes
+        if not all([titulo, fecha, descripcion, estatus is not None, fto_url]):
+            raise KeyError('Faltan parámetros requeridos en la solicitud')
+
+        # Insertar datos en la base de datos
+        sql = """
+        INSERT INTO reportes_incidencias (titulo, fecha, descripcion, estatus, fto_url)
+        VALUES (%s, %s, %s, %s, %s)
+        """
+        cursor.execute(sql, (titulo, fecha, descripcion, estatus, fto_url))
         connection.commit()
 
         return {
             'statusCode': 200,
             'body': json.dumps('Incidencia creada exitosamente')
         }
+
     except KeyError as e:
         logger.error(f"Faltan parámetros requeridos en la solicitud: {str(e)}")
         return {

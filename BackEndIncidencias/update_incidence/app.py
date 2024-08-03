@@ -9,23 +9,29 @@ def lambda_handler(event, context):
         db_password = os.environ['RDS_PASSWORD']
         db_name = os.environ['RDS_DB']
 
+        # Conexión a la base de datos
         connection = mysql.connector.connect(
             host=db_host,
             user=db_user,
             password=db_password,
             database=db_name
         )
-
         cursor = connection.cursor()
 
+        # Cargar datos del evento
         data = json.loads(event['body'])
         reporte_id = data['reporte_id']
         fecha = data['fecha']
         descripcion = data['descripcion']
-        status = data['status']
+        estatus = data['estatus']
 
-        sql = "UPDATE reportes_incidencias SET fecha = %s, descripcion = %s, status = %s WHERE reporte_id = %s"
-        cursor.execute(sql, (fecha, descripcion, status, reporte_id))
+        # Actualizar reporte
+        sql = """
+        UPDATE reportes_incidencias
+        SET fecha = %s, descripcion = %s, estatus = %s
+        WHERE fto = %s
+        """
+        cursor.execute(sql, (fecha, descripcion, estatus, reporte_id))
         connection.commit()
 
         if cursor.rowcount > 0:
@@ -36,12 +42,12 @@ def lambda_handler(event, context):
         else:
             return {
                 'statusCode': 404,
-                'body': json.dumps('Reporte no encontrado not found')
+                'body': json.dumps('Reporte no encontrado')
             }
-    except KeyError:
+    except KeyError as e:
         return {
             'statusCode': 400,
-            'body': json.dumps('Bad request. Missing required parameters.')
+            'body': json.dumps(f'Bad request. Missing required parameter: {str(e)}')
         }
     except mysql.connector.Error as err:
         return {

@@ -2,9 +2,8 @@ import json
 import os
 import mysql.connector
 from mysql.connector import Error
-from datetime import date
 
-def lambda_handler(event, __):
+def lambda_handler(event, context):
     # Obtener variables de entorno
     db_host = os.environ['RDS_HOST']
     db_user = os.environ['RDS_USER']
@@ -19,24 +18,27 @@ def lambda_handler(event, __):
             password=db_password,
             database=db_name
         )
-        print(connection)
 
         cursor = connection.cursor()
 
+        # Obtener el identificador del reporte del parámetro de ruta
         reporte_id = event['pathParameters']['reporte_id']
 
-        sql = "SELECT * FROM reportes_incidencias WHERE reporte_id = %s"
+        # Consulta de un reporte específico
+        sql = "SELECT * FROM reportes_incidencias WHERE fto = %s"
         cursor.execute(sql, (reporte_id,))
-        admin = cursor.fetchone()
+        reporte = cursor.fetchone()
 
-        if admin:
+        if reporte:
             # Convertir la fecha a cadena de texto antes de serializar a JSON
-            reporte_date_joined_str = admin[1].strftime('%Y-%m-%d')
+            reporte_date_joined_str = reporte[1].strftime('%Y-%m-%d')
             data = {
-                'reporte_id': admin[0],
+                'reporte_id': reporte[0],  # Identificador único
+                'titulo': reporte[1],
                 'fecha': reporte_date_joined_str,
-                'descripcion': admin[2],
-                'status': admin[3],
+                'descripcion': reporte[2],
+                'estatus': reporte[3],
+                'fto_url': reporte[4]
             }
             return {
                 'statusCode': 200,

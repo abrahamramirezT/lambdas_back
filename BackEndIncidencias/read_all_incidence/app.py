@@ -1,16 +1,14 @@
-
 import json
 import os
 import mysql.connector
 from mysql.connector import Error
 import logging
-from datetime import date
 
 # Configuración del logger
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-def lambda_handler(event, __):
+def lambda_handler(event, context):
     # Obtener variables de entorno
     db_host = os.environ['RDS_HOST']
     db_user = os.environ['RDS_USER']
@@ -27,6 +25,7 @@ def lambda_handler(event, __):
         )
         cursor = connection.cursor()
 
+        # Consulta de todos los reportes
         sql = "SELECT * FROM reportes_incidencias"
         cursor.execute(sql)
         reportes = cursor.fetchall()
@@ -38,9 +37,11 @@ def lambda_handler(event, __):
                 reporte_date_joined_str = reporte[1].strftime('%Y-%m-%d')
                 reporte_dict = {
                     'reporte_id': reporte[0],
+                    'titulo': reporte[1],
                     'fecha': reporte_date_joined_str,
                     'descripcion': reporte[2],
-                    'status': reporte[3],
+                    'estatus': reporte[3],
+                    'fto_url': reporte[4]
                 }
                 reportes_list.append(reporte_dict)
 
