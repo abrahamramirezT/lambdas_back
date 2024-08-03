@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - main
-
+      - pecha
+      
 jobs:
   sonarcloud:
     name: SonarCloud Scan
@@ -46,52 +47,37 @@ jobs:
 
       - name: Install dependencies for create_user
         run: |
-          cd lambdas_back-main/lambda/user_management/create_user/
+          cd create_incidence/
           pip install -r requirements.txt
 
       - name: Install dependencies for delete_user
         run: |
-          cd lambdas_back-main/lambda/user_management/delete_user/
+          cd delete_incidence/
           pip install -r requirements.txt
 
       - name: Install dependencies for read_user
         run: |
-          cd lambdas_back-main/lambda/user_management/read_user/
+          cd read_all_incidence/
           pip install -r requirements.txt
 
       - name: Install dependencies for update_user
         run: |
-          cd lambdas_back-main/lambda/user_management/update_user/
+          cd read_one_incidence/
           pip install -r requirements.txt
 
       - name: Install dependencies for read_users_all
         run: |
-          cd lambdas_back-main/lambda/user_management/read_users_all/
+          cd update_incidence/
           pip install -r requirements.txt
 
       - name: Install dependencies for delete_admin
         run: |
-          cd lambdas_back-main/lambda/admin_management/delete_admin/
+          cd set_password/
           pip install -r requirements.txt
 
       - name: Install dependencies for read_admin
         run: |
-          cd lambdas_back-main/lambda/admin_management/read_admin/
-          pip install -r requirements.txt
-
-      - name: Install dependencies for read_pf_all
-        run: |
-          cd lambdas_back-main/lambda/pf_management/read_pf_all/
-          pip install -r requirements.txt
-
-      - name: Install dependencies for update_pf
-        run: |
-          cd lambdas_back-main/lambda/pf_management/update_pf/
-          pip install -r requirements.txt
-
-      - name: Install dependencies for create_usuario
-        run: |
-          cd lambdas_back-main/lambda/usuarios_management/create_usuario/
+          cd login/
           pip install -r requirements.txt
 
       - name: Install AWS CLI
