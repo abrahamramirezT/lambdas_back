@@ -2,6 +2,7 @@ import json
 import os
 import mysql.connector
 from mysql.connector import Error
+from datetime import datetime
 
 def lambda_handler(event, context):
     # Obtener variables de entorno
@@ -18,27 +19,31 @@ def lambda_handler(event, context):
             password=db_password,
             database=db_name
         )
-
         cursor = connection.cursor()
 
         # Obtener el identificador del reporte del parámetro de ruta
         reporte_id = event['pathParameters']['reporte_id']
 
         # Consulta de un reporte específico
-        sql = "SELECT * FROM reportes_incidencias WHERE fto = %s"
+        sql = "SELECT * FROM reportes_incidencias WHERE reporte_id = %s"
         cursor.execute(sql, (reporte_id,))
         reporte = cursor.fetchone()
 
         if reporte:
-            # Convertir la fecha a cadena de texto antes de serializar a JSON
-            reporte_date_joined_str = reporte[1].strftime('%Y-%m-%d')
+            # Manejo de la fecha
+            reporte_date = reporte[2]  # El índice debe coincidir con la columna 'fecha'
+            if isinstance(reporte_date, str):
+                reporte_date = datetime.strptime(reporte_date, '%Y-%m-%d').date()
+            # Convertir la fecha a cadena antes de incluirla en el JSON
+            reporte_date_joined_str = reporte_date.strftime('%Y-%m-%d')
+
             data = {
                 'reporte_id': reporte[0],  # Identificador único
                 'titulo': reporte[1],
                 'fecha': reporte_date_joined_str,
-                'descripcion': reporte[2],
-                'estatus': reporte[3],
-                'fto_url': reporte[4]
+                'descripcion': reporte[3],
+                'estatus': reporte[4],
+                'fto_url': reporte[5]
             }
             return {
                 'statusCode': 200,

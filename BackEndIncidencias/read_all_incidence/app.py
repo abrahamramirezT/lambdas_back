@@ -33,17 +33,21 @@ def lambda_handler(event, context):
         if reportes:
             reportes_list = []
             for reporte in reportes:
-                # Convertir la fecha a cadena de texto antes de serializar a JSON
-                reporte_date_joined_str = reporte[1].strftime('%Y-%m-%d')
-                reporte_dict = {
-                    'reporte_id': reporte[0],
-                    'titulo': reporte[1],
-                    'fecha': reporte_date_joined_str,
-                    'descripcion': reporte[2],
-                    'estatus': reporte[3],
-                    'fto_url': reporte[4]
-                }
-                reportes_list.append(reporte_dict)
+                try:
+                    # Convertir la fecha a cadena de texto antes de serializar a JSON
+                    reporte_date_joined_str = reporte[2].strftime('%Y-%m-%d')  # Asegúrate de que el índice sea correcto
+                    reporte_dict = {
+                        'reporte_id': reporte[0],
+                        'titulo': reporte[1],
+                        'fecha': reporte_date_joined_str,
+                        'descripcion': reporte[3],
+                        'estatus': reporte[4],
+                        'fto_url': reporte[5]
+                    }
+                    reportes_list.append(reporte_dict)
+                except Exception as e:
+                    logger.error(f"Error al procesar el reporte {reporte}: {str(e)}")
+                    continue
 
             return {
                 'statusCode': 200,
@@ -70,7 +74,7 @@ def lambda_handler(event, context):
         logger.error(f"Error inesperado: {str(e)}")
         return {
             'statusCode': 500,
-            'body': json.dumps({'error': 'Error inesperado'})
+            'body': json.dumps({'error': 'Error inesperado', 'message': str(e)})
         }
     finally:
         if 'connection' in locals():

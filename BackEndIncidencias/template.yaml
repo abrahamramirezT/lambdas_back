@@ -29,6 +29,7 @@ Resources:
           RDS_USER: "admin"
           RDS_PASSWORD: "admin123"
           RDS_DB: "incidencias"
+          S3_BUCKET: "imagesincidence"
 
   ReadOneIncidenceFunction:
     Type: 'AWS::Serverless::Function'
@@ -47,6 +48,7 @@ Resources:
           RDS_USER: "admin"
           RDS_PASSWORD: "admin123"
           RDS_DB: "incidencias"
+          S3_BUCKET: "imagesincidence"
 
   ReadAllIncidenceFunction:
     Type: 'AWS::Serverless::Function'
@@ -65,6 +67,7 @@ Resources:
           RDS_USER: "admin"
           RDS_PASSWORD: "admin123"
           RDS_DB: "incidencias"
+          S3_BUCKET: "imagesincidence"
 
   UpdateIncidenceFunction:
     Type: 'AWS::Serverless::Function'
@@ -83,6 +86,7 @@ Resources:
           RDS_USER: "admin"
           RDS_PASSWORD: "admin123"
           RDS_DB: "incidencias"
+          S3_BUCKET: "imagesincidence"
 
   DeleteIncidenceFunction:
     Type: 'AWS::Serverless::Function'
@@ -101,6 +105,7 @@ Resources:
           RDS_USER: "admin"
           RDS_PASSWORD: "admin123"
           RDS_DB: "incidencias"
+          S3_BUCKET: "imagesincidence"
 
   ChangesPasswordFunction:
     Type: 'AWS::Serverless::Function'

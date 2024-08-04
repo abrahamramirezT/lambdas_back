@@ -20,18 +20,19 @@ def lambda_handler(event, context):
 
         # Cargar datos del evento
         data = json.loads(event['body'])
-        reporte_id = data['reporte_id']
+        titulo = data["titulo"]
         fecha = data['fecha']
         descripcion = data['descripcion']
         estatus = data['estatus']
+        reporte_id = data['reporte_id']  # Asegúrate de incluir reporte_id
 
         # Actualizar reporte
         sql = """
         UPDATE reportes_incidencias
-        SET fecha = %s, descripcion = %s, estatus = %s
-        WHERE fto = %s
+        SET titulo = %s, fecha = %s, descripcion = %s, estatus = %s
+        WHERE reporte_id = %s
         """
-        cursor.execute(sql, (fecha, descripcion, estatus, reporte_id))
+        cursor.execute(sql, (titulo, fecha, descripcion, estatus, reporte_id))  # Asegúrate de incluir reporte_id
         connection.commit()
 
         if cursor.rowcount > 0:

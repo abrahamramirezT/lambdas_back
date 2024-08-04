@@ -24,7 +24,7 @@ def lambda_handler(event, context):
 
         # Consulta para eliminar un reporte específico
         sql = "DELETE FROM reportes_incidencias WHERE reporte_id = %s"
-        cursor.execute(sql, (fto,))
+        cursor.execute(sql, (reporte_id,))
         connection.commit()
 
         if cursor.rowcount > 0:
