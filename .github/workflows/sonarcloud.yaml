@@ -47,7 +47,7 @@ jobs:
 
       - name: Install dependencies for create_incidence
         run: |
-          cd /create_incidence/
+          cd create_incidence/
           pip install -r requirements.txt
 
       - name: Install dependencies for delete_incidence
