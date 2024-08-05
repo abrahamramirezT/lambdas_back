@@ -14,11 +14,15 @@ logger.setLevel(logging.INFO)
 # Crear el cliente de S3
 s3_client = boto3.client('s3', region_name='us-east-1')
 
-
-
 def lambda_handler(event, context):
     logger.info(f"Evento recibido: {json.dumps(event)}")  # Agregar logging para debugging
 
+    headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST,OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+
+    }
     try:
         # Parámetros de conexión a la base de datos
         db_host = os.environ['RDS_HOST']
@@ -26,6 +30,8 @@ def lambda_handler(event, context):
         db_password = os.environ['RDS_PASSWORD']
         db_name = os.environ['RDS_DB']
         bucket_name = os.environ['S3_BUCKET']  # Obtener el nombre del bucket de la variable de entorno
+
+
 
         connection = mysql.connector.connect(
             host=db_host,
@@ -43,6 +49,10 @@ def lambda_handler(event, context):
             logger.error(f"Error al decodificar JSON: {str(e)}")
             return {
                 'statusCode': 400,
+                'headers': {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json'
+                },
                 'body': json.dumps({'error': 'Solicitud incorrecta. El cuerpo debe ser un JSON válido.'})
             }
 
@@ -74,6 +84,10 @@ def lambda_handler(event, context):
             logger.error(f"Error al subir la imagen a S3: {str(e)}")
             return {
                 'statusCode': 500,
+                'headers': {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json'
+                },
                 'body': json.dumps({'error': 'Error al subir la imagen a S3'})
             }
 
@@ -87,6 +101,7 @@ def lambda_handler(event, context):
 
         return {
             'statusCode': 200,
+            'headers': headers,
             'body': json.dumps('Incidencia creada exitosamente')
         }
 
@@ -94,24 +109,28 @@ def lambda_handler(event, context):
         logger.error(f"Faltan parámetros requeridos en la solicitud: {str(e)}")
         return {
             'statusCode': 400,
+            'headers': headers,
             'body': json.dumps({'error': 'Solicitud incorrecta. Faltan parámetros requeridos.'})
         }
     except Error as e:
         logger.error(f"Error de base de datos: {str(e)}")
         return {
             'statusCode': 500,
+            'headers': headers,
             'body': json.dumps({'error': 'Error de base de datos'})
         }
     except ValueError as e:
         logger.error(f"Error en la imagen: {str(e)}")
         return {
             'statusCode': 400,
+            'headers': headers,
             'body': json.dumps({'error': str(e)})
         }
     except Exception as e:
         logger.error(f"Error inesperado: {str(e)}")
         return {
             'statusCode': 500,
+            'headers': headers,
             'body': json.dumps({'error': 'Error inesperado'})
         }
     finally:

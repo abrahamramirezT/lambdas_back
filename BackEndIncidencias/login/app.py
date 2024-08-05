@@ -2,10 +2,16 @@ import json
 import boto3
 from botocore.exceptions import ClientError
 
-
-def lambda_handler(event, __):
+def lambda_handler(event, context):
     client = boto3.client('cognito-idp', region_name='us-east-1')
     client_id = "1sbarp1jth6oiihie71719sgk5"
+
+    headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST,OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Toke',
+
+    }
 
     try:
         body_parameters = json.loads(event["body"])
@@ -38,6 +44,7 @@ def lambda_handler(event, __):
 
         return {
             'statusCode': 200,
+            'headers': headers,
             'body': json.dumps({
                 'id_token': id_token,
                 'access_token': access_token,
@@ -49,10 +56,12 @@ def lambda_handler(event, __):
     except ClientError as e:
         return {
             'statusCode': 400,
+            'headers': headers,
             'body': json.dumps({"error_message": e.response['Error']['Message']})
         }
     except Exception as e:
         return {
             'statusCode': 500,
+            'headers': headers,
             'body': json.dumps({"error_message": str(e)})
         }

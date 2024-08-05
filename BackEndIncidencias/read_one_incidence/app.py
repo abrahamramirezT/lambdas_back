@@ -11,6 +11,13 @@ def lambda_handler(event, context):
     db_password = os.environ['RDS_PASSWORD']
     db_name = os.environ['RDS_DB']
 
+    headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET,OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+
+    }
+
     try:
         # Conexión a la base de datos
         connection = mysql.connector.connect(
@@ -47,29 +54,34 @@ def lambda_handler(event, context):
             }
             return {
                 'statusCode': 200,
+                'headers': headers,
                 'body': json.dumps(data)
             }
         else:
             return {
                 'statusCode': 404,
+                'headers': headers,
                 'body': json.dumps({'error': 'Reporte no encontrado'})
             }
     except Error as e:
         error_message = f"Error de conexión a la base de datos: {str(e)}"
         return {
             'statusCode': 500,
+            'headers': headers,
             'body': json.dumps({'error': error_message})
         }
     except KeyError as e:
         error_message = f"Falta la clave esperada en el evento: {str(e)}"
         return {
             'statusCode': 400,
+            'headers': headers,
             'body': json.dumps({'error': error_message})
         }
     except Exception as error:
         error_message = f"Error inesperado: {str(error)}"
         return {
             'statusCode': 500,
+            'headers': headers,
             'body': json.dumps({'error': error_message})
         }
     finally:

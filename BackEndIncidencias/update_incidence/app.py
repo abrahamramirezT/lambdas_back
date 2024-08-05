@@ -3,6 +3,12 @@ import os
 import mysql.connector
 
 def lambda_handler(event, context):
+    headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'PUT,OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+    }
+
     try:
         db_host = os.environ['RDS_HOST']
         db_user = os.environ['RDS_USER']
@@ -38,26 +44,31 @@ def lambda_handler(event, context):
         if cursor.rowcount > 0:
             return {
                 'statusCode': 200,
+                'headers': headers,
                 'body': json.dumps('Reporte actualizado correctamente')
             }
         else:
             return {
                 'statusCode': 404,
+                'headers': headers,
                 'body': json.dumps('Reporte no encontrado')
             }
     except KeyError as e:
         return {
             'statusCode': 400,
+            'headers': headers,
             'body': json.dumps(f'Bad request. Missing required parameter: {str(e)}')
         }
     except mysql.connector.Error as err:
         return {
             'statusCode': 500,
+            'headers': headers,
             'body': json.dumps(f"Database error: {str(err)}")
         }
     except Exception as e:
         return {
             'statusCode': 500,
+            'headers': headers,
             'body': json.dumps(f"Error: {str(e)}")
         }
     finally:

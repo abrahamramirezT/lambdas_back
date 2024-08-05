@@ -3,11 +3,19 @@ import os
 import mysql.connector
 
 def lambda_handler(event, context):
+    headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'DELETE,OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+
+    }
     try:
         db_host = os.environ['RDS_HOST']
         db_user = os.environ['RDS_USER']
         db_password = os.environ['RDS_PASSWORD']
         db_name = os.environ['RDS_DB']
+
+
 
         # Conexión a la base de datos
         connection = mysql.connector.connect(
@@ -16,7 +24,6 @@ def lambda_handler(event, context):
             password=db_password,
             database=db_name
         )
-
         cursor = connection.cursor()
 
         # Obtener el identificador del reporte del parámetro de ruta
@@ -30,26 +37,31 @@ def lambda_handler(event, context):
         if cursor.rowcount > 0:
             return {
                 'statusCode': 200,
+                'headers': headers,
                 'body': json.dumps('Incidencia borrada exitosamente')
             }
         else:
             return {
                 'statusCode': 404,
+                'headers': headers,
                 'body': json.dumps('Reporte no encontrado')
             }
     except KeyError as e:
         return {
             'statusCode': 400,
+            'headers': headers,
             'body': json.dumps(f'Bad request. Missing required parameter: {str(e)}')
         }
     except mysql.connector.Error as err:
         return {
             'statusCode': 500,
+            'headers':headers,
             'body': json.dumps(f"Database error: {str(err)}")
         }
     except Exception as e:
         return {
             'statusCode': 500,
+            'headers': headers,
             'body': json.dumps(f"Error: {str(e)}")
         }
     finally:
