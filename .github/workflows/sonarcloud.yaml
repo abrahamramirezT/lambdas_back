@@ -65,17 +65,17 @@ jobs:
           cd read_all_incidence/
           pip install -r requirements.txt
 
-      - name: Install dependencies for read one incidence
+      - name: Install dependencies for read_one_incidence
         run: |
           cd read_one_incidence/
           pip install -r requirements.txt
 
-      - name: Install dependencies for set password
+      - name: Install dependencies for set_password
         run: |
           cd set_password/
           pip install -r requirements.txt
 
-      - name: Install dependencies for update incidence
+      - name: Install dependencies for update_incidence
         run: |
           cd update_incidence/
           pip install -r requirements.txt
