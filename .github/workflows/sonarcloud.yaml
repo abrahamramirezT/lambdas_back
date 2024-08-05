@@ -47,37 +47,37 @@ jobs:
 
       - name: Install dependencies for create_incidence
         run: |
-          cd BackEndIncidencias/create_incidence/
+          cd /create_incidence/
           pip install -r requirements.txt
 
       - name: Install dependencies for delete_incidence
         run: |
-          cd BackEndIncidencias/delete_incidence/
+          cd /delete_incidence/
           pip install -r requirements.txt
 
       - name: Install dependencies for login
         run: |
-          cd BackEndIncidencias/login/
+          cd /login/
           pip install -r requirements.txt
 
       - name: Install dependencies for read all incidence
         run: |
-          cd BackEndIncidencias/read_all_incidence/
+          cd /read_all_incidence/
           pip install -r requirements.txt
 
       - name: Install dependencies for read_one_incidence
         run: |
-          cd BackEndIncidencias/read_one_incidence/
+          cd /read_one_incidence/
           pip install -r requirements.txt
 
       - name: Install dependencies for set_password
         run: |
-          cd BackEndIncidencias/set_password/
+          cd /set_password/
           pip install -r requirements.txt
 
       - name: Install dependencies for update_incidence
         run: |
-          cd BackEndIncidencias/update_incidence/
+          cd /update_incidence/
           pip install -r requirements.txt
 
       - name: Install AWS CLI
