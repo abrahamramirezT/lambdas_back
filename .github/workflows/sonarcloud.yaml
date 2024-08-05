@@ -16,10 +16,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: List files
-        run: |
-          ls -R
-
       - name: SonarCloud scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
@@ -44,10 +40,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: List files
-        run: |
-          ls -R
-
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -55,73 +47,38 @@ jobs:
 
       - name: Install dependencies for create_incidence
         run: |
-          if [ -d "create_incidence" ]; then
-            cd create_incidence/
-            pip install -r requirements.txt
-          else
-            echo "Directory 'create_incidence' does not exist."
-            exit 1
-          fi
+          cd BackEndIncidencias/create_incidence/
+          pip install -r requirements.txt
 
       - name: Install dependencies for delete_incidence
         run: |
-          if [ -d "delete_incidence" ]; then
-            cd delete_incidence/
-            pip install -r requirements.txt
-          else
-            echo "Directory 'delete_incidence' does not exist."
-            exit 1
-          fi
+          cd BackEndIncidencias/delete_incidence/
+          pip install -r requirements.txt
 
       - name: Install dependencies for login
         run: |
-          if [ -d "login" ]; then
-            cd login/
-            pip install -r requirements.txt
-          else
-            echo "Directory 'login' does not exist."
-            exit 1
-          fi
+          cd BackEndIncidencias/login/
+          pip install -r requirements.txt
 
-      - name: Install dependencies for read_all_incidence
+      - name: Install dependencies for read all incidence
         run: |
-          if [ -d "read_all_incidence" ]; then
-            cd read_all_incidence/
-            pip install -r requirements.txt
-          else
-            echo "Directory 'read_all_incidence' does not exist."
-            exit 1
-          fi
+          cd BackEndIncidencias/read_all_incidence/
+          pip install -r requirements.txt
 
       - name: Install dependencies for read_one_incidence
         run: |
-          if [ -d "read_one_incidence" ]; then
-            cd read_one_incidence/
-            pip install -r requirements.txt
-          else
-            echo "Directory 'read_one_incidence' does not exist."
-            exit 1
-          fi
+          cd BackEndIncidencias/read_one_incidence/
+          pip install -r requirements.txt
 
       - name: Install dependencies for set_password
         run: |
-          if [ -d "set_password" ]; then
-            cd set_password/
-            pip install -r requirements.txt
-          else
-            echo "Directory 'set_password' does not exist."
-            exit 1
-          fi
+          cd BackEndIncidencias/set_password/
+          pip install -r requirements.txt
 
       - name: Install dependencies for update_incidence
         run: |
-          if [ -d "update_incidence" ]; then
-            cd update_incidence/
-            pip install -r requirements.txt
-          else
-            echo "Directory 'update_incidence' does not exist."
-            exit 1
-          fi
+          cd BackEndIncidencias/update_incidence/
+          pip install -r requirements.txt
 
       - name: Install AWS CLI
         run: |
@@ -141,3 +98,4 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
+me sigue dando el mismo erroe, este es mi yaml
