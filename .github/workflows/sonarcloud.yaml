@@ -47,7 +47,7 @@ jobs:
 
       - name: Install dependencies for create_incidence
         run: |
-          cd create_incidence/
+          cd /create_incidence/
           pip install -r requirements.txt
 
       - name: Install dependencies for delete_incidence
@@ -98,4 +98,3 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
-me sigue dando el mismo erroe, este es mi yaml
