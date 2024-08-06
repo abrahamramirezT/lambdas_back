@@ -37,7 +37,7 @@
           // Almacena los tokens en el almacenamiento local
           localStorage.setItem('id_token', id_token);
           localStorage.setItem('access_token', access_token);
-          localStorage.setItem('refresh_token', refresh_token);
+          localStorage.setItem('refresh_token', refresh_token)  ;
           localStorage.setItem('role', role);
   
           // Redirige a la página principal o protegida

@@ -4,7 +4,6 @@
     <ul>
       <li><router-link to="/get-all">Ver Todos</router-link></li>
       <li><router-link to="/post">Agregar</router-link></li>
-      <li><router-link to="/put">Actualizar</router-link></li>
       <li v-if="isAuthenticated"><button @click="logout">Cerrar Sesión</button></li>
     </ul>
   </nav>

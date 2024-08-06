@@ -1,8 +1,7 @@
-<!-- src/components/GetAll.vue -->
 <template>
   <div>
     <h2>Ver Todos</h2>
-    <table v-if="items.length">
+    <table v-if="filteredItems.length">
       <thead>
         <tr>
           <th>ID</th>
@@ -15,12 +14,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in items" :key="item.reporte_id">
+        <tr v-for="item in filteredItems" :key="item.reporte_id">
           <td>{{ item.reporte_id }}</td>
           <td>{{ item.titulo }}</td>
           <td>{{ item.fecha }}</td>
           <td>{{ item.descripcion }}</td>
-          <td>{{ item.estatus ? 'Activo' : 'Inactivo' }}</td>
+          <td>{{ formatEstatus(item.estatus) }}</td>
           <td><img :src="item.fto_url" alt="Foto" style="width: 100px; height: auto;" /></td>
           <td>
             <button @click="editItem(item.reporte_id)">Actualizar</button>
@@ -45,10 +44,24 @@ export default {
   created() {
     this.fetchItems();
   },
+  computed: {
+    idToken() {
+      return localStorage.getItem('id_token'); // Obtiene el idToken del localStorage
+    },
+    filteredItems() {
+      // Filtra los elementos que tienen estatus 'Pendiente' (valor 1) y pertenecen al usuario actual
+      return this.items.filter(item => item.estatus === 1);
+    }
+  },
   methods: {
     async fetchItems() {
+      const token = this.id_token; // Usa el idToken almacenado
       try {
-        const response = await axios.get('https://omp7h5yonf.execute-api.us-east-1.amazonaws.com/Prod/read_all_incidence'); // Reemplaza con la URL de tu API Lambda
+        const response = await axios.get('https://omp7h5yonf.execute-api.us-east-1.amazonaws.com/Prod/read_all_incidence', {
+          headers: {
+            'Authorization': `Bearer ${token}`, // Incluye el token en la cabecera de autorización
+          },
+        });
         this.items = response.data; // Asume que la respuesta es un array de elementos
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -59,14 +72,31 @@ export default {
     },
     async deleteItem(id) {
       if (confirm('¿Estás seguro de que deseas eliminar este elemento?')) {
+        const token = this.idToken; // Incluye el token en la cabecera de autorización
         try {
-          await axios.delete(`https://omp7h5yonf.execute-api.us-east-1.amazonaws.com/Prod/delete_incidence/${id}`);
+          await axios.delete(`https://omp7h5yonf.execute-api.us-east-1.amazonaws.com/Prod/delete_incidence/${id}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          });
           alert('Elemento eliminado correctamente.');
           this.fetchItems(); // Actualiza la lista después de eliminar
         } catch (error) {
           console.error('Error al eliminar el elemento:', error);
           alert('Error al eliminar el elemento.');
         }
+      }
+    },
+    formatEstatus(estatus) {
+      switch (estatus) {
+        case 1:
+          return 'Pendiente';
+        case 2:
+          return 'En Progreso';
+        case 3:
+          return 'Completado';
+        default:
+          return 'Desconocido';
       }
     },
   },

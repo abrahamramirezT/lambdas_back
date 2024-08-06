@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import GetAll from '../components/GetAll.vue';
+import GetAll from '../views/user/GetUser.vue';
 import PostForm from '../components/PostForm.vue';
 import PutForm from '../components/PutForm.vue';
 import Login from '../components/Login.vue';
@@ -32,7 +32,7 @@ const router = new Router({
     {
       path: '/put',
       component: PutForm,
-      meta: { requiresAuth: true, roles: ['user'] }, // Solo para rol admin
+      meta: { requiresAuth: true, roles: ['admin'] }, // Solo para rol admin
     },
     {
       path: '*',
