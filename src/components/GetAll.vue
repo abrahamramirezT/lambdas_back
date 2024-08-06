@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="wrapper">
+    <div>
     <h2>Ver Todos</h2>
     <table v-if="items.length">
       <thead>
@@ -31,6 +32,7 @@
       </tbody>
     </table>
     <p v-else>Cargando datos...</p>
+    </div>
   </div>
 </template>
 
@@ -76,8 +78,9 @@ export default {
 
 <style scoped>
 
-template{
-  padding:10%
+.wrapper{
+  padding-left:5%;
+  padding-right:5%
 }
 table {
   width: 100%;

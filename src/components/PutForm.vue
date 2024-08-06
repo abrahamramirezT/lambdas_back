@@ -1,8 +1,9 @@
 <!-- src/components/PutForm.vue -->
 <template>
     <div>
-      <h2>Actualizar Elemento</h2>
+      
       <form @submit.prevent="updateItem">
+      <h2>Actualizar Elemento</h2>
         <label for="id">ID del Elemento:</label>
         <input type="number" id="reporte_id" v-model="reporte_id" required readonly />
   
@@ -109,6 +110,11 @@
   </script>
   
   <style scoped>
+
+  div{
+    display:flex;
+    justify-content:center;
+  }
   form {
     display: flex;
     flex-direction: column;

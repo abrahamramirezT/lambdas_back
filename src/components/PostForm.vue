@@ -1,8 +1,9 @@
 <!-- src/components/PostForm.vue -->
 <template>
     <div>
+      
+      <form @submit.prevent="submitForm" class="form">
       <h2>Crear Nuevo</h2>
-      <form @submit.prevent="submitForm">
         <label for="titulo">Título:</label>
         <input type="text" id="titulo" v-model="titulo" required />
   
@@ -84,10 +85,18 @@
   </script>
   
   <style scoped>
+
+  div{
+    display:flex;
+    justify-content:center;
+  }
   form {
     display: flex;
     flex-direction: column;
+
   }
+
+ 
   
   label {
     margin: 5px 0;
@@ -107,6 +116,7 @@
     padding: 10px;
     border-radius: 4px;
     cursor: pointer;
+
   }
   
   button:hover {
