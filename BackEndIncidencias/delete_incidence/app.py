@@ -1,8 +1,31 @@
 import json
 import os
 import mysql.connector
+from mysql.connector import Error
+import logging
+import boto3
+from botocore.exceptions import ClientError
+from typing import Dict
+
+# Configuración del logger
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+def get_secret(secret_name: str, region_name: str) -> Dict[str, str]:
+    # Create a Secrets Manager client
+    session = boto3.session.Session()
+    client = session.client(service_name='secretsmanager', region_name=region_name)
+    try:
+        get_secret_value_response = client.get_secret_value(SecretId=secret_name)
+    except ClientError as e:
+        logging.error("Failed to retrieve secret: %s", e)
+        raise e
+
+    return json.loads(get_secret_value_response['SecretString'])
 
 def lambda_handler(event, context):
+    secret_name = os.environ['MY_SECRET_NAME']
+    region_name = os.environ['MY_AWS_REGION']
     headers = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'DELETE,OPTIONS',
@@ -10,10 +33,11 @@ def lambda_handler(event, context):
 
     }
     try:
-        db_host = os.environ['RDS_HOST']
-        db_user = os.environ['RDS_USER']
-        db_password = os.environ['RDS_PASSWORD']
-        db_name = os.environ['RDS_DB']
+        secret = get_secret(secret_name, region_name)
+        db_host = secret['host']
+        db_user = secret['username']
+        db_password = secret['password']
+        db_name = secret['dbInstanceIdentifier']
 
 
 

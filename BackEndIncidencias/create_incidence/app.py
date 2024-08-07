@@ -11,11 +11,26 @@ import base64
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+def get_secret(secret_name: str, region_name: str) -> Dict[str, str]:
+    # Create a Secrets Manager client
+    session = boto3.session.Session()
+    client = session.client(service_name='secretsmanager', region_name=region_name)
+    try:
+        get_secret_value_response = client.get_secret_value(SecretId=secret_name)
+    except ClientError as e:
+        logging.error("Failed to retrieve secret: %s", e)
+        raise e
+
+    return json.loads(get_secret_value_response['SecretString'])
+
 # Crear el cliente de S3
 s3_client = boto3.client('s3', region_name='us-east-1')
 
 def lambda_handler(event, context):
     logger.info(f"Evento recibido: {json.dumps(event)}")  # Agregar logging para debugging
+
+    secret_name = os.environ['MY_SECRET_NAME']
+    region_name = os.environ['MY_AWS_REGION']
 
     headers = {
         'Access-Control-Allow-Origin': '*',
@@ -25,11 +40,11 @@ def lambda_handler(event, context):
     }
     try:
         # Parámetros de conexión a la base de datos
-        db_host = os.environ['RDS_HOST']
-        db_user = os.environ['RDS_USER']
-        db_password = os.environ['RDS_PASSWORD']
-        db_name = os.environ['RDS_DB']
-        bucket_name = os.environ['S3_BUCKET']  # Obtener el nombre del bucket de la variable de entorno
+        secret = get_secret(secret_name, region_name)
+        db_host = secret['host']
+        db_user = secret['username']
+        db_password = secret['password']
+        db_name = secret['dbInstanceIdentifier']  # Obtener el nombre del bucket de la variable de entorno
 
 
 
