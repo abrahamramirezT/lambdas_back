@@ -54,12 +54,7 @@ def lambda_handler(event, context):
                 'statusCode': 404,
                 'body': json.dumps({'error': 'Reporte no encontrado'})
             }
-    except Error as e:
-        error_message = f"Error de conexión a la base de datos: {str(e)}"
-        return {
-            'statusCode': 500,
-            'body': json.dumps({'error': error_message})
-        }
+
     except KeyError as e:
         error_message = f"Falta la clave esperada en el evento: {str(e)}"
         return {
