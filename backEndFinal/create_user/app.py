@@ -1,5 +1,7 @@
 import json
 import os
+from typing import Dict
+
 import mysql.connector
 from mysql.connector import Error
 import logging

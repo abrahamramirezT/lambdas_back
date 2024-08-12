@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2c411e5c-8d0c-44f2-a94e-5a76373fbc71" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/backEndFinal/create_user/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/backEndFinal/create_user/app.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageOptionsProvider">
+    <option name="myAddOrReplace" value="1" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python tests.pytest for test_app_create_incidence.TestLambdaHandler.executor": "Coverage",
+    "Python tests.pytest for test_app_create_incidence.TestLambdaHandler.test_lambda_handler.executor": "Coverage",
+    "Python tests.pytest for test_app_create_user.TestCreateUserLambdaHandler.executor": "Coverage",
+    "Python tests.pytest for test_app_delete_incidence.TestDeleteIncidenceLambdaHandler.executor": "Coverage",
+    "Python tests.pytest for test_app_delete_incidence.TestDeleteIncidenceLambdaHandler.test_lambda_handler.executor": "Coverage",
+    "Python tests.pytest for test_app_delete_incidence.TestDeleteIncidences.executor": "Coverage",
+    "Python tests.pytest for test_app_delete_incidence.TestLambdaHandler.executor": "Coverage",
+    "Python tests.pytest for test_app_delete_incidence.TestLambdaHandler.test_lambda_handler.executor": "Coverage",
+    "Python tests.pytest for test_app_login.TestLoginLambdaHandler.executor": "Coverage",
+    "Python tests.pytest for test_app_read_all_incidences.TestReadAllIncidencesLambdaHandler.executor": "Coverage",
+    "Python tests.pytest for test_app_set_password.TestSetPasswordLambdaHandler.executor": "Coverage",
+    "Python tests.pytest for test_app_update_incidence.TestUpdateIncidenceLambdaHandler.executor": "Coverage",
+    "git-widget-placeholder": "SergioCisneros",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "advanced.settings"
+  }
+}]]></component>
+  <component name="RunManager" selected="Python tests.pytest for test_app_delete_incidence.TestLambdaHandler.test_lambda_handler">
+    <configuration name="pytest for test_app_create_incidence.TestLambdaHandler" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="lambdas_back" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/backEndFinal/tests/unit" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_app_create_incidence.TestLambdaHandler&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest for test_app_delete_incidence.TestDeleteIncidenceLambdaHandler.test_lambda_handler" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="lambdas_back" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/backEndFinal/tests/unit" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_app_delete_incidence.TestDeleteIncidenceLambdaHandler.test_lambda_handler&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest for test_app_delete_incidence.TestDeleteIncidences" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="lambdas_back" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/backEndFinal/tests/unit" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_app_delete_incidence.TestDeleteIncidences&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest for test_app_delete_incidence.TestLambdaHandler" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="lambdas_back" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/backEndFinal/tests/unit" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_app_delete_incidence.TestLambdaHandler&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest for test_app_delete_incidence.TestLambdaHandler.test_lambda_handler" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="lambdas_back" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/backEndFinal/tests/unit" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_app_delete_incidence.TestLambdaHandler.test_lambda_handler&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python tests.pytest for test_app_delete_incidence.TestLambdaHandler.test_lambda_handler" />
+        <item itemvalue="Python tests.pytest for test_app_delete_incidence.TestLambdaHandler" />
+        <item itemvalue="Python tests.pytest for test_app_delete_incidence.TestDeleteIncidences" />
+        <item itemvalue="Python tests.pytest for test_app_delete_incidence.TestDeleteIncidenceLambdaHandler.test_lambda_handler" />
+        <item itemvalue="Python tests.pytest for test_app_create_incidence.TestLambdaHandler" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/backEndFinal/tests/unit/test_app_login.py</url>
+          <line>8</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/lambdas_back$pytest_for_test_app_login_TestLoginLambdaHandler.coverage" NAME="pytest for test_app_login.TestLoginLambdaHandler Coverage Results" MODIFIED="1723425127406" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backEndFinal/tests/unit" />
+    <SUITE FILE_PATH="coverage/lambdas_back$pytest_for_test_app_create_incidence_TestLambdaHandler_test_lambda_handler.coverage" NAME="pytest for test_app_create_incidence.TestLambdaHandler.test_lambda_handler Coverage Results" MODIFIED="1723425590803" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backEndFinal/tests/unit" />
+    <SUITE FILE_PATH="coverage/lambdas_back$pytest_for_test_app_delete_incidence_TestLambdaHandler.coverage" NAME="pytest for test_app_delete_incidence.TestLambdaHandler Coverage Results" MODIFIED="1723426746979" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backEndFinal/tests/unit" />
+    <SUITE FILE_PATH="coverage/lambdas_back$pytest_for_test_app_read_all_incidences_TestReadAllIncidencesLambdaHandler.coverage" NAME="pytest for test_app_read_all_incidences.TestReadAllIncidencesLambdaHandler Coverage Results" MODIFIED="1723425240916" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backEndFinal/tests/unit" />
+    <SUITE FILE_PATH="coverage/lambdas_back$pytest_for_test_app_update_incidence_TestUpdateIncidenceLambdaHandler.coverage" NAME="pytest for test_app_update_incidence.TestUpdateIncidenceLambdaHandler Coverage Results" MODIFIED="1723425481414" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backEndFinal/tests/unit" />
+    <SUITE FILE_PATH="coverage/lambdas_back$pytest_for_test_app_delete_incidence_TestDeleteIncidenceLambdaHandler_test_lambda_handler.coverage" NAME="pytest for test_app_delete_incidence.TestDeleteIncidenceLambdaHandler.test_lambda_handler Coverage Results" MODIFIED="1723426103451" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backEndFinal/tests/unit" />
+    <SUITE FILE_PATH="coverage/lambdas_back$pytest_for_test_app_delete_incidence_TestLambdaHandler_test_lambda_handler.coverage" NAME="pytest for test_app_delete_incidence.TestLambdaHandler.test_lambda_handler Coverage Results" MODIFIED="1723427419413" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backEndFinal/tests/unit" />
+    <SUITE FILE_PATH="coverage/lambdas_back$pytest_for_test_app_create_incidence_TestLambdaHandler.coverage" NAME="pytest for test_app_create_incidence.TestLambdaHandler Coverage Results" MODIFIED="1723425826677" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backEndFinal/tests/unit" />
+    <SUITE FILE_PATH="coverage/lambdas_back$pytest_for_test_app_set_password_TestSetPasswordLambdaHandler.coverage" NAME="pytest for test_app_set_password.TestSetPasswordLambdaHandler Coverage Results" MODIFIED="1723425365310" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backEndFinal/tests/unit" />
+    <SUITE FILE_PATH="coverage/lambdas_back$pytest_for_test_app_create_user_TestCreateUserLambdaHandler.coverage" NAME="pytest for test_app_create_user.TestCreateUserLambdaHandler Coverage Results" MODIFIED="1723424895651" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backEndFinal/tests/unit" />
+    <SUITE FILE_PATH="coverage/lambdas_back$pytest_for_test_app_delete_incidence_TestDeleteIncidences.coverage" NAME="pytest for test_app_delete_incidence.TestDeleteIncidences Coverage Results" MODIFIED="1723426204709" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backEndFinal/tests/unit" />
+    <SUITE FILE_PATH="coverage/lambdas_back$pytest_for_test_app_delete_incidence_TestDeleteIncidenceLambdaHandler.coverage" NAME="pytest for test_app_delete_incidence.TestDeleteIncidenceLambdaHandler Coverage Results" MODIFIED="1723425022355" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backEndFinal/tests/unit" />
+  </component>
+</project>
