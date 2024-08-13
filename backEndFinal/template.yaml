@@ -95,14 +95,10 @@ Resources:
   MyApiLogin:
     Type: "AWS::Serverless::Api"
     Properties:
-      Name: "MyApiGateway"
+      Name: "MyApiGatewayLogin"
       StageName: "prod"
 
-  MyApiUser:
-    Type: "AWS::Serverless::Api"
-    Properties:
-      Name: "MyApiGateway"
-      StageName: "prod"
+
 
   # IAM Role for Lambda Execution
   LambdaExecutionRole:
@@ -175,6 +171,26 @@ Resources:
           Properties:
             RestApiId: !Ref MyApi
             Path: /read_all_incidence
+            Method: get
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+  ReadOneIncidenceFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_one_incidence/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        GetOneIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApi
+            Path: /read_one_incidence/{reporte_id}
             Method: get
       Environment:
         Variables:
@@ -259,22 +275,4 @@ Resources:
           MY_COGNITO_SECRET_NAME: !Ref MyNewCognitoSecret
           MY_AWS_REGION: "us-east-1"
 
-  CreateUserFunction:
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      CodeUri: create_user/
-      Handler: app.lambda_handler
-      Role: !GetAtt LambdaExecutionRole.Arn
-      Events:
-        CreateIncidence:
-          Type: Api
-          Properties:
-            RestApiId: !Ref MyApiUser
-            Path: /create_user
-            Method: post
-      Environment:
-        Variables:
-          MY_SECRET_NAME: !Ref MyRDSSecret
-          MY_AWS_REGION: "us-east-1"
-          S3_BUCKET: !Ref MyS3Bucket
-          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+

@@ -6,6 +6,7 @@ import logging
 import boto3
 from botocore.exceptions import BotoCoreError, ClientError
 import base64
+import uuid
 
 # Configuración del logger
 logger = logging.getLogger()
@@ -73,20 +74,23 @@ def lambda_handler(event, __):
         titulo = data.get('titulo')
         fecha = data.get('fecha')
         descripcion = data.get('descripcion')
+        estudiante = data.get('estudiante')
+        aula = data.get('aula')
+        edificio = data.get('edificio')
+        matricula = data.get('matricula')
         estatus = data.get('estatus')
         fto_base64 = data.get('fto_base64')
-        user_id = data.get('user_id')  # Nuevo campo para el user_id
 
         logger.info(f"Datos recibidos: {data}")  # Agregar logging para debugging
 
         # Validar que todos los campos necesarios estén presentes
-        if not all([titulo, fecha, descripcion, estatus is not None, fto_base64, user_id]):
+        if not all([titulo, fecha, descripcion, estudiante, aula, edificio, matricula, estatus is not None, fto_base64]):
             raise KeyError('Faltan parámetros requeridos en la solicitud')
 
         # Decodificar la imagen de base64
         try:
             fto_data = base64.b64decode(fto_base64)
-            fto_key = f"{titulo.replace(' ', '_')}_{fecha}.jpg"
+            fto_key = f"{uuid.uuid4()}.jpg"  # Generar un nombre único utilizando UUID
         except Exception as e:
             logger.error(f"Error al decodificar la imagen: {str(e)}")
             raise ValueError('La imagen no está en un formato base64 válido')
@@ -108,10 +112,10 @@ def lambda_handler(event, __):
 
         # Insertar datos en la base de datos
         sql = """
-        INSERT INTO reportes_incidencias (titulo, fecha, descripcion, estatus, fto_url, user_id)
-        VALUES (%s, %s, %s, %s, %s, %s)
+        INSERT INTO reportes_incidencias (titulo, fecha, descripcion, estudiante, aula, edificio, matricula, estatus, fto_url)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
-        cursor.execute(sql, (titulo, fecha, descripcion, estatus, fto_url, user_id))
+        cursor.execute(sql, (titulo, fecha, descripcion, estudiante, aula, edificio, matricula, estatus, fto_url))
         connection.commit()
 
         return {

@@ -1,4 +1,3 @@
-
 import json
 import os
 import mysql.connector
@@ -43,6 +42,15 @@ def lambda_handler(event, __):
         db_password = secret['password']
         db_name = secret['dbname']
 
+        # Obtener el ID del reporte desde el evento
+        reporte_id = event['pathParameters']['reporte_id']
+        if not reporte_id:
+            return {
+                'statusCode': 400,
+                'headers': headers,
+                'body': json.dumps({'error': 'El parámetro ID es requerido'})
+            }
+
         # Conexión a la base de datos
         connection = mysql.connector.connect(
             host=db_host,
@@ -52,45 +60,46 @@ def lambda_handler(event, __):
         )
         cursor = connection.cursor()
 
-        # Consulta de todos los reportes
-        sql = "SELECT * FROM reportes_incidencias"
-        cursor.execute(sql)
-        reportes = cursor.fetchall()
+        # Consulta del reporte específico por ID
+        sql = "SELECT * FROM reportes_incidencias WHERE reporte_id = %s"
+        cursor.execute(sql, (reporte_id,))
+        reporte = cursor.fetchone()
 
-        if reportes:
-            reportes_list = []
-            for reporte in reportes:
-                try:
-                    # Convertir la fecha a cadena de texto antes de serializar a JSON
-                    reporte_date_joined_str = reporte[2].strftime('%Y-%m-%d')  # Asegúrate de que el índice sea correcto
-                    reporte_dict = {
-                        'reporte_id': reporte[0],
-                        'titulo': reporte[1],
-                        'fecha': reporte_date_joined_str,
-                        'descripcion': reporte[3],
-                        'estudiante': reporte[4],
-                        'aula': reporte[5],
-                        'edificio': reporte[6],
-                        'matricula': reporte[7],
-                        'estatus': reporte[8],
-                        'fto_url': reporte[9]
-                    }
-                    reportes_list.append(reporte_dict)
-                except Exception as e:
-                    logger.error(f"Error al procesar el reporte {reporte}: {str(e)}")
-                    continue
-
-            return {
-                'statusCode': 200,
-                'headers': headers,
-                'body': json.dumps(reportes_list)
-            }
+        if reporte:
+            try:
+                # Convertir la fecha a cadena de texto antes de serializar a JSON
+                reporte_date_joined_str = reporte[2].strftime('%Y-%m-%d')  # Asegúrate de que el índice sea correcto
+                reporte_dict = {
+                    'reporte_id': reporte[0],
+                    'titulo': reporte[1],
+                    'fecha': reporte_date_joined_str,
+                    'descripcion': reporte[3],
+                    'estudiante': reporte[4],
+                    'aula': reporte[5],
+                    'edificio': reporte[6],
+                    'matricula': reporte[7],
+                    'estatus': reporte[8],
+                    'fto_url': reporte[9]
+                }
+                return {
+                    'statusCode': 200,
+                    'headers': headers,
+                    'body': json.dumps(reporte_dict)
+                }
+            except Exception as e:
+                logger.error(f"Error al procesar el reporte {reporte}: {str(e)}")
+                return {
+                    'statusCode': 500,
+                    'headers': headers,
+                    'body': json.dumps({'error': 'Error al procesar el reporte'})
+                }
         else:
             return {
                 'statusCode': 404,
                 'headers': headers,
-                'body': json.dumps({'error': 'No se encontraron reportes'})
+                'body': json.dumps({'error': f"No se encontró el reporte con ID {reporte_id}"})
             }
+
     except Error as e:
         logger.error(f"Error de base de datos: {str(e)}")
         return {
