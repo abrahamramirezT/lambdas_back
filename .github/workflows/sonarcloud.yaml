@@ -47,12 +47,12 @@ jobs:
 
       - name: Install dependencies for create_incidence
         run: |
-          cd create_incidence/
+          cd /create_incidence
           pip install -r requirements.txt
 
       - name: Install dependencies for delete_incidence
         run: |
-          cd delete_incidence/
+          cd delete_incidence
           pip install -r requirements.txt
 
       - name: Install dependencies for login
@@ -62,12 +62,12 @@ jobs:
 
       - name: Install dependencies for read all incidence
         run: |
-          cd read_all_incidence/
+          cd read_all_incidence
           pip install -r requirements.txt
 
       - name: Install dependencies for read_one_incidence
         run: |
-          cd read_one_incidence/
+          cd read_one_incidence
           pip install -r requirements.txt
 
       - name: Install dependencies for set_password
@@ -77,7 +77,7 @@ jobs:
 
       - name: Install dependencies for update_incidence
         run: |
-          cd update_incidence/
+          cd update_incidence
           pip install -r requirements.txt
 
       - name: Install AWS CLI
