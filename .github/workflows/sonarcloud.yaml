@@ -25,7 +25,7 @@ jobs:
           args: >
             -Dsonar.organization=backend1
             -Dsonar.projectKey=abrahamramirezT_lambdas_back
-            -Dsonar.sources=BackEndIncidencias
+            -Dsonar.sources=backEndFinal
             -Dsonar.python.coverage.reportPaths=backEndFinal/coverage.
 
   deploy:
