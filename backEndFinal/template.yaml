@@ -1,0 +1,278 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  BackEndIncidencias
+
+Globals:
+  Function:
+    Timeout: 3
+    Runtime: python3.11
+    Architectures:
+      - x86_64
+
+Resources:
+
+  # RDS Instance
+  MyRDSInstance:
+    Type: "AWS::RDS::DBInstance"
+    Properties:
+      DBInstanceIdentifier: "mydbinstance"
+      AllocatedStorage: "20"
+      DBInstanceClass: "db.t3.micro"
+      Engine: "mysql"
+      MasterUsername: "admin"
+      MasterUserPassword: "adminpassword"
+      DBName: "incidencias"
+
+  # Secrets Manager for RDS
+  MyRDSSecret:
+    Type: "AWS::SecretsManager::Secret"
+    Properties:
+      Name: "MyRDSSecret"
+      Description: "Secret for RDS credentials"
+      SecretString: !Sub |
+        {
+          "username": "admin",
+          "password": "adminpassword",
+          "engine": "mysql",
+          "host": "${MyRDSInstance.Endpoint.Address}",
+          "port": 3306,
+          "dbname": "incidencias"
+        }
+
+  MyNewCognitoSecret:
+    Type: "AWS::SecretsManager::Secret"
+    Properties:
+      Name: "MyNewCognitoSecret"
+      Description: "Secret for Cognito Client credentials"
+      SecretString: !Sub |
+        {
+          "client_id": "${MyNewUserPoolClient}",
+          "user_pool_id": "${MyNewUserPool}"
+        }
+
+  # Cognito User Pool
+  MyNewUserPool:
+    Type: "AWS::Cognito::UserPool"
+    Properties:
+      UserPoolName: "MyNewUserPool"
+      AutoVerifiedAttributes:
+        - email
+
+  # Cognito User Pool Client
+  MyNewUserPoolClient:
+    Type: "AWS::Cognito::UserPoolClient"
+    Properties:
+      ClientName: "MyNewUserPoolClient"
+      UserPoolId: !Ref MyNewUserPool
+      GenerateSecret: false
+      ExplicitAuthFlows:
+        - ALLOW_ADMIN_USER_PASSWORD_AUTH
+        - ALLOW_USER_PASSWORD_AUTH
+        - ALLOW_REFRESH_TOKEN_AUTH
+        - ALLOW_ADMIN_USER_PASSWORD_AUTH
+
+  # S3 Bucket with a unique name
+  MyS3Bucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: !Sub "bucketimages-026090539382-us-east-1"
+
+  # CloudWatch Log Group
+  MyLogGroup:
+    Type: "AWS::Logs::LogGroup"
+    Properties:
+      LogGroupName: "/aws/lambda/MyLogGroup"
+      RetentionInDays: 14
+
+  # API Gateway
+  MyApi:
+    Type: "AWS::Serverless::Api"
+    Properties:
+      Name: "MyApiGateway"
+      StageName: "prod"
+
+  MyApiLogin:
+    Type: "AWS::Serverless::Api"
+    Properties:
+      Name: "MyApiGatewayLogin"
+      StageName: "prod"
+
+
+
+  # IAM Role for Lambda Execution
+  LambdaExecutionRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service: "lambda.amazonaws.com"
+            Action: "sts:AssumeRole"
+      Policies:
+        - PolicyName: "LambdaBasicExecution"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - "logs:CreateLogGroup"
+                  - "logs:CreateLogStream"
+                  - "logs:PutLogEvents"
+                  - "secretsmanager:GetSecretValue"
+                  - "s3:PutObject"
+                  - "s3:GetObject"
+                  - "s3:DeleteObject"
+                  - "s3:ListBucket"
+                  - "rds:DescribeDBInstances"
+                  - "rds:Connect"
+                  - "rds:Select"
+                  - "rds:Insert"
+                  - "rds:Update"
+                  - "rds:Delete"
+                  - "cognito-idp:AdminInitiateAuth"
+                  - "cognito-idp:AdminUserGlobalSignOut"
+                  - "cognito-idp:AdminListGroupsForUser"
+                Resource: "*"
+
+
+  # Lambda Functions
+  CreateIncidenceFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: create_incidence/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        CreateIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApi
+            Path: /create_incidence
+            Method: post
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+  ReadAllIncidenceFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_all_incidence/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        GetAllIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApi
+            Path: /read_all_incidence
+            Method: get
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+  ReadOneIncidenceFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_one_incidence/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        GetOneIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApi
+            Path: /read_one_incidence/{reporte_id}
+            Method: get
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+  UpdateIncidenceFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: update_incidence/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        UpdateIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApi
+            Path: /update_incidence/{reporte_id}
+            Method: put
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+  DeleteIncidenceFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: delete_incidence/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        DeleteIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApi
+            Path: /delete_incidence/{reporte_id}
+            Method: delete
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+  ChangesPasswordFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: set_password/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        ChangePassword:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApiLogin
+            Path: /change_password
+            Method: post
+      Environment:
+        Variables:
+          MY_COGNITO_SECRET_NAME: !Ref MyNewCognitoSecret
+          MY_AWS_REGION: "us-east-1"
+
+  LoginFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: login/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        Login:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApiLogin
+            Path: /login
+            Method: post
+      Environment:
+        Variables:
+          MY_COGNITO_SECRET_NAME: !Ref MyNewCognitoSecret
+          MY_AWS_REGION: "us-east-1"
+
+
