@@ -58,7 +58,6 @@ jobs:
       - name: Install dependencies for login
         run: |
           cd backEndFinal/login/
-          pip install -r requirements.txt
 
       - name: Install dependencies for read all incidence
         run: |
@@ -73,7 +72,6 @@ jobs:
       - name: Install dependencies for set_password
         run: |
           cd backEndFinal/set_password/
-          pip install -r requirements.txt
 
       - name: Install dependencies for update_incidence
         run: |
