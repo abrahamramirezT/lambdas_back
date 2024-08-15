@@ -8,7 +8,7 @@
       <!-- Sección de Dashboard -->
       <div class="bg-white shadow-md rounded-lg p-6 mb-6">
         <!-- Tabla de Incidencias -->
-        <h2 class="text-xl font-semibold mb-4">Incidencias Pendientes de Aprobación</h2>
+        <h2 class="text-xl font-semibold mb-4">Incidencias Pendientes </h2>
         <DataTable
           title="Ver Todos"
           :items="filteredItems"

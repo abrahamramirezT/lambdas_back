@@ -8,10 +8,10 @@
       <!-- Sección de Dashboard -->
       <div class="bg-white shadow-md rounded-lg p-6 mb-6">
         <!-- Tabla de Incidencias -->
-        <h2 class="text-xl font-semibold mb-4">Incidencias Pendientes de Arreglar</h2>
+        <h2 class="text-xl font-semibold mb-4">Incidencias </h2>
         <DataTable
           title="Ver Todos"
-          :items="filteredItems"
+          :items="items"
           :headers="headers"
           :role="'admin'"
           @approve-item="approveItem"
@@ -38,11 +38,6 @@ export default {
       items: [],
       headers: ['ID', 'Título', 'Fecha', 'Descripción', 'Estudiante', 'Aula', 'Edificio', 'Matricula','Grado', 'Grupo', 'Division Academica', 'Status', 'Foto'],
     };
-  },
-  computed: {
-    filteredItems() {
-      return this.items.filter(item => item.estatus === 1); // Filtrar incidencias pendientes
-    },
   },
   methods: {
   async fetchItems() {

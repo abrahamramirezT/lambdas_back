@@ -29,6 +29,17 @@
           </router-link>
         </li>
 
+        <li 
+          v-if="role === 'admin'" 
+          class="px-4 py-2 hover:bg-blue-800 rounded-md"
+          :class="{ 'bg-blue-700': isActive('/admin-autorizadas') }"
+        >
+          <router-link to="/admin-autorizadas" class="flex items-center">
+            <i class="fas fa-clipboard-check mr-3"></i>
+            <span>Incidencias Autorizadas</span>
+          </router-link>
+        </li>
+
         <li
           v-if="role === 'user'"
           class="px-4 py-2 hover:bg-blue-800 rounded-md"

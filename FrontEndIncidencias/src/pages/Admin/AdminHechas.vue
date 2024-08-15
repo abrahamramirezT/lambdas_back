@@ -6,10 +6,10 @@
     <!-- Contenido Principal -->
     <div class="flex-grow p-6">
       <div class="bg-white shadow-md rounded-lg p-6">
-        <h1 class="text-2xl font-semibold mb-6">Incidencias Recientes</h1>
+        <h1 class="text-2xl font-semibold mb-6">Incidencias en Progreso</h1>
         <DataTable
           title="Ver Todos"
-          :items="items"
+          :items="filteredItems"
           :headers="headers"
           @edit-item="editItem"
           @delete-item="deleteItem"
@@ -32,8 +32,13 @@ export default {
   data() {
     return {
       items: [],
-      headers: ['ID', 'Título', 'Fecha', 'Descripción', 'Estudiante', 'Aula', 'Edificio', 'Matricula', 'Status', 'Grado', 'Grupo', 'División Académica', 'Foto', 'Acciones'],
+      headers: ['ID', 'Título', 'Fecha', 'Descripción', 'Estudiante', 'Aula', 'Edificio', 'Matricula',  'Grado', 'Grupo', 'División Académica', 'Status', 'Foto', 'Acciones'],
     };
+  },
+  computed: {
+    filteredItems() {
+      return this.items.filter(item => item.estatus === 2); // Filtrar incidencias pendientes
+    },
   },
   mounted() {
     this.fetchItems();

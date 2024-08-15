@@ -9,7 +9,7 @@
         <h1 class="text-2xl font-semibold mb-6">Incidencias En Progreso</h1>
         <DataTable
           title="Ver Todos"
-          :items="items"
+          :items="filteredItems"
           :headers="headers"
           @edit-item="editItem"
           @delete-item="deleteItem"
@@ -34,6 +34,11 @@ export default {
       items: [],
       headers: ['ID', 'Título', 'Fecha', 'Descripción', 'Estudiante','Aula','Edificio','Matricula',  'Grado', 'Grupo', 'Division Academica', 'Status', 'Foto'],
     };
+  },
+  computed: {
+    filteredItems() {
+      return this.items.filter(item => item.estatus === 2); // Filtrar incidencias pendientes
+    },
   },
   mounted() {
     this.fetchItems();
