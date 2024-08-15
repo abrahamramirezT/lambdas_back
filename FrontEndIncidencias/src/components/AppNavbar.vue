@@ -6,21 +6,22 @@
     <div class="flex-grow mt-6">
       <ul class="space-y-4">
         <!-- Navigation Links -->
+
         <li 
           v-if="role === 'admin'" 
           class="px-4 py-2 hover:bg-blue-800 rounded-md"
-          :class="{ 'bg-blue-700': isActive('/admin') }"
+          :class="{ 'bg-blue-700': isActive('/home-admin') }"
         >
-          <router-link to="/admin-autorizadas" class="flex items-center">
-            <i class="fas fa-clipboard-check mr-3"></i>
-            <span>Incidencias Autorizadas</span>
+          <router-link to="/home-admin" class="flex items-center">
+            <i class="fas fa-tachometer-alt mr-3"></i>
+            <span>Home</span>
           </router-link>
         </li>
 
         <li 
           v-if="role === 'admin'" 
           class="px-4 py-2 hover:bg-blue-800 rounded-md"
-          :class="{ 'bg-blue-700': isActive('/admin') }"
+          :class="{ 'bg-blue-700': isActive('/admin-hechas') }"
         >
           <router-link to="/admin-hechas" class="flex items-center">
             <i class="fas fa-clipboard-check mr-3"></i>
@@ -28,33 +29,21 @@
           </router-link>
         </li>
 
-        <li 
-          v-if="role === 'admin'" 
+        <li
+          v-if="role === 'user'"
           class="px-4 py-2 hover:bg-blue-800 rounded-md"
-          :class="{ 'bg-blue-700': isActive('/admin') }"
+          :class="{ 'bg-blue-700': isActive('/home-user') }"
         >
-          <router-link to="/admin-pendientes" class="flex items-center">
+          <router-link to="/home-user" class="flex items-center">
             <i class="fas fa-clipboard-check mr-3"></i>
-            <span>Incidencias Pendientes</span>
-          </router-link>
-        </li>
-
-
-        <li 
-          v-if="role === 'user'" 
-          class="px-4 py-2 hover:bg-blue-800 rounded-md"
-          :class="{ 'bg-blue-700': isActive('/admin') }"
-        >
-          <router-link to="/user-pendientes" class="flex items-center">
-            <i class="fas fa-clipboard-check mr-3"></i>
-            <span>Incidencias Pendientes</span>
+            <span>Home</span>
           </router-link>
         </li>
 
         <li 
           v-if="role === 'user'" 
           class="px-4 py-2 hover:bg-blue-800 rounded-md"
-          :class="{ 'bg-blue-700': isActive('/admin') }"
+          :class="{ 'bg-blue-700': isActive('/create-incidencia') }"
         >
           <router-link to="/create-incidencia" class="flex items-center">
             <i class="fas fa-clipboard-check mr-3"></i>
@@ -65,34 +54,24 @@
         <li 
           v-if="role === 'pf'" 
           class="px-4 py-2 hover:bg-blue-800 rounded-md"
-          :class="{ 'bg-blue-700': isActive('/admin') }"
+          :class="{ 'bg-blue-700': isActive('/home-pf') }"
         >
-          <router-link to="/pf-pendientes" class="flex items-center">
+          <router-link to="/home-pf" class="flex items-center">
             <i class="fas fa-clipboard-check mr-3"></i>
-            <span>Incidencias Pendientes</span>
+            <span>Home</span>
           </router-link>
         </li>
 
         <li 
           v-if="role === 'pf'" 
           class="px-4 py-2 hover:bg-blue-800 rounded-md"
-          :class="{ 'bg-blue-700': isActive('/admin') }"
+          :class="{ 'bg-blue-700': isActive('/pf-hechas') }"
         >
           <router-link to="/pf-hechas" class="flex items-center">
             <i class="fas fa-clipboard-check mr-3"></i>
             <span>Incidencias Hechas</span>
           </router-link>
         </li>
-
-        
-          
-
-
-
-    
-
-
-        
       </ul>
     </div>
     <!-- Botón de Cerrar Sesión -->
@@ -120,7 +99,7 @@ export default {
 
     // Función para determinar si la ruta actual coincide con el link
     const isActive = (path) => {
-      return route.path === path;
+      return route.path.startsWith(path); // Compara si la ruta comienza con el prefijo
     };
 
     return {

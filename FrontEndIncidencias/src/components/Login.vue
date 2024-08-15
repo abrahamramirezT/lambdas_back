@@ -48,19 +48,18 @@
           <div class="mb-6">
             <label for="password" class="block mb-2 text-sm font-medium text-gray-600">Contraseña:</label>
             <div class="relative">
-              <input type="password" id="password" v-model="password" required
+              <input :type="showPassword ? 'text' : 'password'" id="password" v-model="password" required
                 class="w-full px-4 py-2 text-sm bg-gray-100 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#317b5a]" />
-              <span class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400">
-                <!-- Ícono de candado -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5v14" />
+              <span class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 cursor-pointer" @click="togglePasswordVisibility">
+                <svg v-if="showPassword" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.522 5 12 5c4.478 0 8.268 2.943 9.542 7-.958 2.519-3.135 4.668-5.957 5.693M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A9.955 9.955 0 0112 19c-4.478 0-8.268-2.943-9.542-7 1.143-3.035 3.735-5.53 6.875-6.451m6.71 2.706a3 3 0 10-4.24 4.243M2.458 12C3.732 7.943 7.522 5 12 5c4.478 0 8.268 2.943 9.542 7-.958 2.519-3.135 4.668-5.957 5.693M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </span>
             </div>
-          </div>
-
-          <div class="mb-4 text-right">
-            <a href="#" class="text-sm text-[#317b5a] hover:underline">¿Olvidaste tu contraseña?</a>
           </div>
 
           <button type="submit"
@@ -78,17 +77,8 @@
             <i class="fas fa-user-check mr-2"></i>
             Activar Usuario
           </button>
-          <button @click="goToRegisterUser" class="flex items-center justify-center w-full px-4 py-2 ml-2 text-sm font-semibold text-gray-600 border rounded-lg hover:bg-gray-100">
-            <i class="fas fa-user-plus mr-2"></i>
-            Crear Usuario
-          </button>
         </div>
 
-        <div class="mt-6 text-center">
-          <p class="text-sm text-gray-600">
-            ¿No tienes una cuenta? <a href="#" class="text-[#317b5a] hover:underline">Regístrate</a>
-          </p>
-        </div>
       </div>
     </div>
   </div>
@@ -102,33 +92,35 @@ export default {
     return {
       username: '',
       password: '',
+      showPassword: false, // Controla si la contraseña es visible o no
     };
   },
   methods: {
     async login() {
-      try {
-        const response = await axios.post('https://h91d57g3rl.execute-api.us-east-1.amazonaws.com/Stage/login', {
-          username: this.username,
-          password: this.password,
-        });
+  // Usamos $nextTick para asegurarnos de que el DOM y el estado estén completamente actualizados antes de proceder
+  this.$nextTick(async () => {
+    try {
+      const response = await axios.post('https://h91d57g3rl.execute-api.us-east-1.amazonaws.com/Stage/login', {
+        username: this.username,
+        password: this.password,
+      });
 
-        const { id_token, access_token, refresh_token, role } = response.data;
+      const { id_token, access_token, refresh_token, role } = response.data;
 
-        // Almacena los tokens en el almacenamiento local
-        localStorage.setItem('id_token', id_token);
-        localStorage.setItem('access_token', access_token);
-        localStorage.setItem('refresh_token', refresh_token);
-        localStorage.setItem('role', role);
+      // Almacena los tokens en el almacenamiento local
+      localStorage.setItem('id_token', id_token);
+      localStorage.setItem('access_token', access_token);
+      localStorage.setItem('refresh_token', refresh_token);
+      localStorage.setItem('role', role);
 
-        // Redirige a la página principal o protegida
-        // Redirige según el rol del usuario
+      // Redirige según el rol del usuario
       if (role === 'admin') {
         this.$router.push('/home-admin');
       } else if (role === 'pf') {
         this.$router.push('/home-pf');
       } else if (role === 'user') {
         this.$router.push('/home-user');
-      } else  {
+      } else {
         this.$router.push('/login');
         alert('No tienes permiso para acceder a esta aplicación.');
       }
@@ -136,13 +128,16 @@ export default {
       console.error('Error al iniciar sesión:', error);
       alert('Nombre de usuario o contraseña incorrectos.');
     }
-  },
+  });
+}
+,
+    togglePasswordVisibility() {
+      this.showPassword = !this.showPassword;
+    },
     goToRegisterUser() {
-      // Redirige a la página de registro
       this.$router.push('/create-user');
     },
     goToActivateUser() {
-      // Redirige a la página de activación de usuario
       this.$router.push('/activate-user');
     },
   },
@@ -150,5 +145,7 @@ export default {
 </script>
 
 <style scoped>
-/* La mayoría de los estilos están manejados por Tailwind CSS */
+button {
+  user-select: none; /* Evita la selección de texto */
+}
 </style>

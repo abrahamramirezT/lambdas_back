@@ -53,40 +53,28 @@ def lambda_handler(event, __):
         cursor = connection.cursor()
 
         # Consulta de todos los reportes
-        sql = "SELECT * FROM reportes_incidencias"
+        sql = "SELECT * FROM divisiones_academicas"
         cursor.execute(sql)
-        reportes = cursor.fetchall()
+        div_academicas = cursor.fetchall()
 
-        if reportes:
-            reportes_list = []
-            for reporte in reportes:
+        if div_academicas:
+            div_academica_list = []
+            for div_academica in div_academicas:
                 try:
-                    # Convertir la fecha a cadena de texto antes de serializar a JSON
-                    reporte_date_joined_str = reporte[2].strftime('%Y-%m-%d')  # Asegúrate de que el índice sea correcto
-                    reporte_dict = {
-                        'reporte_id': reporte[0],
-                        'titulo': reporte[1],
-                        'fecha': reporte_date_joined_str,
-                        'descripcion': reporte[3],
-                        'estudiante': reporte[4],
-                        'aula': reporte[5],
-                        'edificio': reporte[6],
-                        'matricula': reporte[7],
-                        'grado': reporte[8],
-                        'grupo': reporte[9],
-                        'div_academica': reporte[10],
-                        'estatus': reporte[11],
-                        'fto_url': reporte[12]
+                    div_academica_dict = {
+                        'div_aca_id': div_academica[0],
+                        'nombre': div_academica[1]
+
                     }
-                    reportes_list.append(reporte_dict)
+                    div_academica_list.append(div_academica_dict)
                 except Exception as e:
-                    logger.error(f"Error al procesar el reporte {reporte}: {str(e)}")
+                    logger.error(f"Error al procesar el reporte {div_academica}: {str(e)}")
                     continue
 
             return {
                 'statusCode': 200,
                 'headers': headers,
-                'body': json.dumps(reportes_list)
+                'body': json.dumps(div_academica_list)
             }
         else:
             return {

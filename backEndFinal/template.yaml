@@ -86,10 +86,42 @@ Resources:
       RetentionInDays: 14
 
   # API Gateway
+
   MyApi:
     Type: "AWS::Serverless::Api"
     Properties:
       Name: "MyApiGateway"
+      StageName: "prod"
+
+
+  MyApiAula:
+    Type: "AWS::Serverless::Api"
+    Properties:
+      Name: "MyApiGatewayAula"
+      StageName: "prod"
+
+  MyApiEdificio:
+    Type: "AWS::Serverless::Api"
+    Properties:
+      Name: "MyApiGatewayEdificio"
+      StageName: "prod"
+
+  MyApiDivisionAcademica:
+    Type: "AWS::Serverless::Api"
+    Properties:
+      Name: "MyApiGatewayDivisionAcademica"
+      StageName: "prod"
+
+  MyApiGrado:
+    Type: "AWS::Serverless::Api"
+    Properties:
+      Name: "MyApiGatewayGrado"
+      StageName: "prod"
+
+  MyApiGrupo:
+    Type: "AWS::Serverless::Api"
+    Properties:
+      Name: "MyApiGatewayGrupo"
       StageName: "prod"
 
   MyApiLogin:
@@ -274,5 +306,209 @@ Resources:
         Variables:
           MY_COGNITO_SECRET_NAME: !Ref MyNewCognitoSecret
           MY_AWS_REGION: "us-east-1"
+
+  ReadAllAulaFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_aula_all/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        GetAllIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApiAula
+            Path: /read_all_aula
+            Method: get
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+  ReadOneAulaFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_aula_one/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        GetOneIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApiAula
+            Path: /read_one_aula/{aula_id}
+            Method: get
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+  ReadAllEdificioFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_edificio_all/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        GetAllIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApiEdificio
+            Path: /read_all_edificio
+            Method: get
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+  ReadOneEdificioFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_edificio_one/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        GetOneIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApiEdificio
+            Path: /read_one_edificio/{edificio_id}
+            Method: get
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+  ReadAllDivisionAcademicaFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_div_academica_all/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        GetAllIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApiDivisionAcademica
+            Path: /read_all_div_academica
+            Method: get
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+  ReadOneDivisionAcademicaFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_div_academica_one/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        GetOneIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApiDivisionAcademica
+            Path: /read_one_div_academica/{div_aca_id}
+            Method: get
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+
+  ReadAllGradoFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_grado_all/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        GetAllIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApiGrado
+            Path: /read_all_grado
+            Method: get
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+  ReadOneGradoFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_grado_one/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        GetOneIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApiGrado
+            Path: /read_one_grado/{grado_id}
+            Method: get
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+
+  ReadAllGrupoFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_grupo_all/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        GetAllIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApiGrupo
+            Path: /read_all_grupo
+            Method: get
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+  ReadOneGrupoFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_grupo_one/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        GetOneIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApiGrupo
+            Path: /read_one_grupo/{grupo_id}
+            Method: get
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+
 
 

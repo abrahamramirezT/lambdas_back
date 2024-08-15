@@ -1,16 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Login from '@/components/Login.vue';
 import ActivateUser from '@/layout/ActivateUser.vue';
-import CreateUser from '@/layout/CreateUser.vue';
 import HomeAdmin from '@/pages/Admin/HomeAdmin.vue';
 import HomePf from '@/pages/Pf/HomePf.vue';
 import HomeUser from '@/pages/User/HomeUser.vue';
-import AdminPendientes from '@/pages/Admin/AdminPendientes.vue';
 import AdminHechas from '@/pages/Admin/AdminHechas.vue';
 import AdminAutorizadas from '@/pages/Admin/AdminAutorizadas.vue';
-import PfPendientes from '@/pages/Pf/PfPendientes.vue'
 import PfHechas from '@/pages/Pf/PfHechas.vue'
-import UserPendientes from '@/pages/User/UserPendientes.vue'
 import CreateIncidencia from '@/pages/User/CreateIncidencia.vue';
 import PfUpdate from '@/pages/Pf/PfUpdate.vue'
 const routes = [
@@ -55,20 +51,8 @@ const routes = [
     name: 'ActivateUser',
     component: ActivateUser,
   },
-  {
-    path: '/create-user',
-    name: 'CreateUser',
-    component: CreateUser,
-  },
-  {
-    path: '/admin-pendientes',
-    name: 'AdminPendientes',
-    component: AdminPendientes,
-    meta: {
-      requiresAuth: true,
-      role: 'admin',
-    },
-  },
+
+ 
   {
     path: '/admin-hechas',
     name: 'AdminHechas',
@@ -87,15 +71,7 @@ const routes = [
       role: 'admin',
     },
   },
-  {
-    path: '/pf-pendientes',
-    name: 'PfPendientes',
-    component: PfPendientes,
-    meta: {
-      requiresAuth: true,
-      role: 'pf',
-    },
-  },
+ 
   {
     path: '/pf-hechas',
     name: 'PfHechas',
@@ -114,15 +90,7 @@ const routes = [
       role: 'pf',
     },
   },
-  { 
-    path: '/user-pendientes',
-    name: 'UserPendientes',
-    component: UserPendientes,
-    meta: {
-      requiresAuth: true,
-      role: 'user',
-    },
-  },
+ 
   {
     path: '/create-incidencia',
     name: 'CreateIncidencia',

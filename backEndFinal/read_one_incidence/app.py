@@ -78,8 +78,11 @@ def lambda_handler(event, __):
                     'aula': reporte[5],
                     'edificio': reporte[6],
                     'matricula': reporte[7],
-                    'estatus': reporte[8],
-                    'fto_url': reporte[9]
+                    'grado': reporte[8],
+                    'grupo': reporte[9],
+                    'div_academica': reporte[10],
+                    'estatus': reporte[11],
+                    'fto_url': reporte[12]
                 }
                 return {
                     'statusCode': 200,

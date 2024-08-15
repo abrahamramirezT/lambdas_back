@@ -53,40 +53,28 @@ def lambda_handler(event, __):
         cursor = connection.cursor()
 
         # Consulta de todos los reportes
-        sql = "SELECT * FROM reportes_incidencias"
+        sql = "SELECT * FROM grado"
         cursor.execute(sql)
-        reportes = cursor.fetchall()
+        grados = cursor.fetchall()
 
-        if reportes:
-            reportes_list = []
-            for reporte in reportes:
+        if grados:
+            grado_list = []
+            for grado in grados:
                 try:
-                    # Convertir la fecha a cadena de texto antes de serializar a JSON
-                    reporte_date_joined_str = reporte[2].strftime('%Y-%m-%d')  # Asegúrate de que el índice sea correcto
-                    reporte_dict = {
-                        'reporte_id': reporte[0],
-                        'titulo': reporte[1],
-                        'fecha': reporte_date_joined_str,
-                        'descripcion': reporte[3],
-                        'estudiante': reporte[4],
-                        'aula': reporte[5],
-                        'edificio': reporte[6],
-                        'matricula': reporte[7],
-                        'grado': reporte[8],
-                        'grupo': reporte[9],
-                        'div_academica': reporte[10],
-                        'estatus': reporte[11],
-                        'fto_url': reporte[12]
+                    grado_dict = {
+                        'grado_id': grado[0],
+                        'nombre': grado[1]
+
                     }
-                    reportes_list.append(reporte_dict)
+                    grado_list.append(grado_dict)
                 except Exception as e:
-                    logger.error(f"Error al procesar el reporte {reporte}: {str(e)}")
+                    logger.error(f"Error al procesar el reporte {grado}: {str(e)}")
                     continue
 
             return {
                 'statusCode': 200,
                 'headers': headers,
-                'body': json.dumps(reportes_list)
+                'body': json.dumps(grado_list)
             }
         else:
             return {
