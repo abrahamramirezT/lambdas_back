@@ -73,15 +73,6 @@ manifest_hash = ""
 packagetype = "Zip"
 functions = ["ReadAllAulaFunction"]
 
-[function_build_definitions.bd7c9953-01cc-43e0-92ec-16ec5d01316b]
-codeuri = "C:\\Users\\TRAFALGAR\\Documents\\GitHub\\lambdas_back\\backEndFinal\\read_aula_one"
-runtime = "python3.11"
-architecture = "x86_64"
-handler = "app.lambda_handler"
-manifest_hash = ""
-packagetype = "Zip"
-functions = ["ReadOneAulaFunction"]
-
 [function_build_definitions.050255ae-3e13-4cf1-ae12-56b78f2f7cde]
 codeuri = "C:\\Users\\TRAFALGAR\\Documents\\GitHub\\lambdas_back\\backEndFinal\\read_edificio_all"
 runtime = "python3.11"
@@ -90,15 +81,6 @@ handler = "app.lambda_handler"
 manifest_hash = ""
 packagetype = "Zip"
 functions = ["ReadAllEdificioFunction"]
-
-[function_build_definitions.9f2fc066-5022-41a6-92cf-3a219fcfffca]
-codeuri = "C:\\Users\\TRAFALGAR\\Documents\\GitHub\\lambdas_back\\backEndFinal\\read_edificio_one"
-runtime = "python3.11"
-architecture = "x86_64"
-handler = "app.lambda_handler"
-manifest_hash = ""
-packagetype = "Zip"
-functions = ["ReadOneEdificioFunction"]
 
 [function_build_definitions.3d86db8b-6a13-43bd-bdf6-ff665b1e8765]
 codeuri = "C:\\Users\\TRAFALGAR\\Documents\\GitHub\\lambdas_back\\backEndFinal\\read_div_academica_all"
@@ -109,15 +91,6 @@ manifest_hash = ""
 packagetype = "Zip"
 functions = ["ReadAllDivisionAcademicaFunction"]
 
-[function_build_definitions.3f92812e-a8c5-4bc4-8fbc-2c899ee6d5fc]
-codeuri = "C:\\Users\\TRAFALGAR\\Documents\\GitHub\\lambdas_back\\backEndFinal\\read_div_academica_one"
-runtime = "python3.11"
-architecture = "x86_64"
-handler = "app.lambda_handler"
-manifest_hash = ""
-packagetype = "Zip"
-functions = ["ReadOneDivisionAcademicaFunction"]
-
 [function_build_definitions.f8cb4fc4-92e0-4765-8801-f39965c517f8]
 codeuri = "C:\\Users\\TRAFALGAR\\Documents\\GitHub\\lambdas_back\\backEndFinal\\read_grado_all"
 runtime = "python3.11"
@@ -127,15 +100,6 @@ manifest_hash = ""
 packagetype = "Zip"
 functions = ["ReadAllGradoFunction"]
 
-[function_build_definitions.b848cc34-c895-415d-bf05-5304b8972d94]
-codeuri = "C:\\Users\\TRAFALGAR\\Documents\\GitHub\\lambdas_back\\backEndFinal\\read_grado_one"
-runtime = "python3.11"
-architecture = "x86_64"
-handler = "app.lambda_handler"
-manifest_hash = ""
-packagetype = "Zip"
-functions = ["ReadOneGradoFunction"]
-
 [function_build_definitions.cb27c189-2564-4147-883d-03eee59035a1]
 codeuri = "C:\\Users\\TRAFALGAR\\Documents\\GitHub\\lambdas_back\\backEndFinal\\read_grupo_all"
 runtime = "python3.11"
@@ -144,14 +108,5 @@ handler = "app.lambda_handler"
 manifest_hash = ""
 packagetype = "Zip"
 functions = ["ReadAllGrupoFunction"]
-
-[function_build_definitions.8f5855e9-fe76-4b2b-a9a6-59ce13ff4cb9]
-codeuri = "C:\\Users\\TRAFALGAR\\Documents\\GitHub\\lambdas_back\\backEndFinal\\read_grupo_one"
-runtime = "python3.11"
-architecture = "x86_64"
-handler = "app.lambda_handler"
-manifest_hash = ""
-packagetype = "Zip"
-functions = ["ReadOneGrupoFunction"]
 
 [layer_build_definitions]
