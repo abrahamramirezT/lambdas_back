@@ -59,16 +59,16 @@ def lambda_handler(event, __):
 
         if grupos:
             grupo_list = []
-            for grado in grupos:
+            for grupo in grupos:
                 try:
                     grupo_dict = {
-                        'grado_id': grado[0],
-                        'nombre': grado[1]
+                        'grupo_id': grupo[0],
+                        'nombre': grupo[1]
 
                     }
                     grupo_list.append(grupo_dict)
                 except Exception as e:
-                    logger.error(f"Error al procesar el reporte {grado}: {str(e)}")
+                    logger.error(f"Error al procesar el reporte {grupo}: {str(e)}")
                     continue
 
             return {

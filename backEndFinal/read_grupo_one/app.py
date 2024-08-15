@@ -68,7 +68,7 @@ def lambda_handler(event, __):
         if grupo:
             try:
                 grupo_dict = {
-                    'aula_id': grupo[0],
+                    'grupo_id': grupo[0],
                     'nombre': grupo[1]
 
                 }

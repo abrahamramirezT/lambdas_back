@@ -86,7 +86,7 @@ def lambda_handler(event, __):
         logger.info(f"Datos recibidos: {data}")  # Agregar logging para debugging
 
         # Validar que todos los campos necesarios estén presentes
-        if not all([titulo, fecha, descripcion, estudiante, aula, edificio, matricula, estatus is not None, fto_base64]):
+        if not all([titulo, fecha, descripcion, estudiante, aula, edificio, matricula, estatus, grado, grupo, div_academica is not None, fto_base64]):
             raise KeyError('Faltan parámetros requeridos en la solicitud')
 
         # Decodificar la imagen de base64
@@ -117,7 +117,7 @@ def lambda_handler(event, __):
         INSERT INTO reportes_incidencias (titulo, fecha, descripcion, estudiante, aula, edificio, matricula, grado, grupo, div_academica, estatus, fto_url)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)
         """
-        cursor.execute(sql, (titulo, fecha, descripcion, estudiante, aula, edificio, matricula, estatus, fto_url))
+        cursor.execute(sql, (titulo, fecha, descripcion, estudiante, aula, edificio, matricula,grado, grupo,div_academica, estatus, fto_url))
         connection.commit()
 
         return {

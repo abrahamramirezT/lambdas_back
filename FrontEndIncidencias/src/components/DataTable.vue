@@ -11,7 +11,7 @@
         <tbody>
           <tr v-for="item in items" :key="item.id" class="border-b text-gray-700">
             <td v-for="(value, key) in item" :key="key" class="py-3 px-4">
-              <template v-if="role === 'actions'">
+              <template v-if="key === 'actions'">
                 <!-- Si el rol es Admin, muestra Aprobar, Rechazar, Actualizar y Eliminar -->
                 <template v-if="role === 'admin'">
                   <button @click="editItem(item)" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
