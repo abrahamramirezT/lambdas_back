@@ -1,178 +1,178 @@
-<template>
-  <div class="flex h-screen bg-gray-100">
-    <!-- Navbar -->
-    <AppNavbar :role="'admin'" class="w-64 bg-white shadow-lg" />
+  <template>
+    <div class="flex h-screen bg-gray-100">
+      <!-- Navbar -->
+      <AppNavbar :role="'admin'" class="w-64 bg-white shadow-lg" />
 
-    <!-- Contenido Principal -->
-    <div class="flex-grow p-6 overflow-y-auto">
-      <!-- Sección de Dashboard -->
-      <div class="bg-white shadow-md rounded-lg p-6 mb-6">
-        <h1 class="text-2xl font-semibold mb-6">Dashboard de Incidencias</h1>
+      <!-- Contenido Principal -->
+      <div class="flex-grow p-6 overflow-y-auto">
+        <!-- Sección de Dashboard -->
+        <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+          <h1 class="text-2xl font-semibold mb-6">Dashboard de Incidencias</h1>
 
-        <!-- Gráficas -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          <div class="bg-white shadow-md rounded-lg p-4">
-            <canvas id="chart1"></canvas>
+          <!-- Gráficas -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="bg-white shadow-md rounded-lg p-4">
+              <canvas id="chart1"></canvas>
+            </div>
+            <div class="bg-white shadow-md rounded-lg p-4">
+              <canvas id="chart2"></canvas>
+            </div>
+            <div class="bg-white shadow-md rounded-lg p-4">
+              <canvas id="chart3"></canvas>
+            </div>
           </div>
-          <div class="bg-white shadow-md rounded-lg p-4">
-            <canvas id="chart2"></canvas>
-          </div>
-          <div class="bg-white shadow-md rounded-lg p-4">
-            <canvas id="chart3"></canvas>
-          </div>
+
+          <!-- Tabla de Incidencias -->
+          <h2 class="text-xl font-semibold mb-4">Incidencias Pendientes de Arreglar</h2>
+          <DataTable
+            title="Ver Todos"
+            :items="filteredItems"
+            :headers="headers"
+            @approve-item="approveItem"
+            @reject-item="rejectItem"
+            :role="'admin'"
+          />
         </div>
-
-        <!-- Tabla de Incidencias -->
-        <h2 class="text-xl font-semibold mb-4">Incidencias Pendientes de Arreglar</h2>
-        <DataTable
-          title="Ver Todos"
-          :items="filteredItems"
-          :headers="headers"
-          @approve-item="approveItem"
-          @reject-item="rejectItem"
-          :role="'admin'"
-        />
       </div>
     </div>
-  </div>
-</template>
+  </template>
 
-<script>
-import AppNavbar from '@/components/AppNavbar.vue';
-import DataTable from '@/components/DataTable.vue';
-import { Chart, registerables } from 'chart.js';
-import axios from 'axios';
+  <script>
+  import AppNavbar from '@/components/AppNavbar.vue';
+  import DataTable from '@/components/DataTable.vue';
+  import { Chart, registerables } from 'chart.js';
+  import axios from 'axios';
 
-export default {
-  components: {
-    AppNavbar,
-    DataTable,
-  },
-  data() {
-    return {
-      items: [],
-      headers: ['ID', 'Título', 'Fecha', 'Descripción', 'Estudiante', 'Aula', 'Edificio', 'Matricula', 'Status','Foto', 'Acciones'],
-      actions: true
-    };
-  },
-  computed: {
-    filteredItems() {
-      return this.items.filter(item => item.estatus === 1); // Filtrar incidencias pendientes
+  export default {
+    components: {
+      AppNavbar,
+      DataTable,
     },
-  },
-  methods: {
-    async fetchItems() {
-      try {
-        const response = await axios.get('https://4ns4y61589.execute-api.us-east-1.amazonaws.com/Stage/read_all_incidence');
-        this.items = response.data.map(incidencia => ({
-          id: incidencia.reporte_id,
-          titulo: incidencia.titulo,
-          fecha: incidencia.fecha,
-          descripcion: incidencia.descripcion,
-          estudiante: incidencia.estudiante,
-          aula: incidencia.aula,
-          edificio: incidencia.edificio,
-          matricula: incidencia.matricula,
-          estatus: incidencia.estatus,
-          fto_url: incidencia.fto_url
-        }));
-        this.renderCharts();
-      } catch (error) {
-        console.error('Error al obtener las incidencias:', error);
-        alert('Hubo un problema al cargar las incidencias.');
+    data() {
+      return {
+        items: [],
+        headers: ['ID', 'Título', 'Fecha', 'Descripción', 'Estudiante', 'Aula', 'Edificio', 'Matricula', 'Status','Foto', 'Acciones'],
+      };
+    },
+    computed: {
+      filteredItems() {
+        return this.items.filter(item => item.estatus === 1); // Filtrar incidencias pendientes
+      },
+    },
+    methods: {
+      async fetchItems() {
+        try {
+          const response = await axios.get('https://4ns4y61589.execute-api.us-east-1.amazonaws.com/Stage/read_all_incidence');
+          this.items = response.data.map(incidencia => ({
+            id: incidencia.reporte_id,
+            titulo: incidencia.titulo,
+            fecha: incidencia.fecha,
+            descripcion: incidencia.descripcion,
+            estudiante: incidencia.estudiante,
+            aula: incidencia.aula,
+            edificio: incidencia.edificio,
+            matricula: incidencia.matricula,
+            estatus: incidencia.estatus,
+            fto_url: incidencia.fto_url,
+            actions: true
+          }));
+          this.renderCharts();
+        } catch (error) {
+          console.error('Error al obtener las incidencias:', error);
+          alert('Hubo un problema al cargar las incidencias.');
+        }
+      },
+      approveItem(id) {
+        // Lógica para aprobar la incidencia
+        alert(`Incidencia ${id} aprobada`);
+        // Llamar al API para actualizar el estatus de la incidencia
+        this.fetchItems(); // Refresca la lista después de aprobar/rechazar
+      },
+      rejectItem(id) {
+        // Lógica para rechazar la incidencia
+        alert(`Incidencia ${id} rechazada`);
+        // Llamar al API para actualizar el estatus de la incidencia
+        this.fetchItems(); // Refresca la lista después de aprobar/rechazar
+      },
+      renderCharts() {
+        Chart.register(...registerables);
+
+        // Gráfico 1 - Doughnut Chart
+        const ctx1 = document.getElementById('chart1').getContext('2d');
+        new Chart(ctx1, {
+          type: 'doughnut',
+          data: {
+            labels: ['Pendientes', 'En Progreso', 'Completadas'],
+            datasets: [{
+              data: [
+                this.items.filter(item => item.estatus === 1).length,
+                this.items.filter(item => item.estatus === 2).length,
+                this.items.filter(item => item.estatus === 3).length
+              ],
+              backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+          }
+        });
+
+        // Gráfico 2 - Bar Chart
+        const ctx2 = document.getElementById('chart2').getContext('2d');
+        new Chart(ctx2, {
+          type: 'bar',
+          data: {
+            labels: ['Enero', 'Febrero', 'Marzo', 'Abril'],
+            datasets: [{
+              label: 'Incidencias por mes',
+              data: [10, 15, 20, 25],
+              backgroundColor: '#42A5F5',
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+          }
+        });
+
+        // Gráfico 3 - Line Chart
+        const ctx3 = document.getElementById('chart3').getContext('2d');
+        new Chart(ctx3, {
+          type: 'line',
+          data: {
+            labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'],
+            datasets: [{
+              label: 'Incidencias resueltas',
+              data: [5, 10, 3, 8],
+              borderColor: '#66BB6A',
+              fill: false,
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+          }
+        });
       }
     },
-    approveItem(id) {
-      // Lógica para aprobar la incidencia
-      alert(`Incidencia ${id} aprobada`);
-      // Llamar al API para actualizar el estatus de la incidencia
-      this.fetchItems(); // Refresca la lista después de aprobar/rechazar
+    mounted() {
+      this.fetchItems();
     },
-    rejectItem(id) {
-      // Lógica para rechazar la incidencia
-      alert(`Incidencia ${id} rechazada`);
-      // Llamar al API para actualizar el estatus de la incidencia
-      this.fetchItems(); // Refresca la lista después de aprobar/rechazar
-    },
-    renderCharts() {
-      Chart.register(...registerables);
+  };
+  </script>
 
-      // Gráfico 1 - Doughnut Chart
-      const ctx1 = document.getElementById('chart1').getContext('2d');
-      new Chart(ctx1, {
-        type: 'doughnut',
-        data: {
-          labels: ['Pendientes', 'En Progreso', 'Completadas'],
-          datasets: [{
-            data: [
-              this.items.filter(item => item.estatus === 1).length,
-              this.items.filter(item => item.estatus === 2).length,
-              this.items.filter(item => item.estatus === 3).length
-            ],
-            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-        }
-      });
+  <style scoped>
+  /* Estilos adicionales para el layout */
+  .bg-gray-100 {
+    background-color: #f7f7f7;
+  }
 
-      // Gráfico 2 - Bar Chart
-      const ctx2 = document.getElementById('chart2').getContext('2d');
-      new Chart(ctx2, {
-        type: 'bar',
-        data: {
-          labels: ['Enero', 'Febrero', 'Marzo', 'Abril'],
-          datasets: [{
-            label: 'Incidencias por mes',
-            data: [10, 15, 20, 25],
-            backgroundColor: '#42A5F5',
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-        }
-      });
+  .flex-grow {
+    overflow-y: auto;
+  }
 
-      // Gráfico 3 - Line Chart
-      const ctx3 = document.getElementById('chart3').getContext('2d');
-      new Chart(ctx3, {
-        type: 'line',
-        data: {
-          labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'],
-          datasets: [{
-            label: 'Incidencias resueltas',
-            data: [5, 10, 3, 8],
-            borderColor: '#66BB6A',
-            fill: false,
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-        }
-      });
-    }
-  },
-  mounted() {
-    this.fetchItems();
-  },
-};
-</script>
-
-<style scoped>
-/* Estilos adicionales para el layout */
-.bg-gray-100 {
-  background-color: #f7f7f7;
-}
-
-.flex-grow {
-  overflow-y: auto;
-}
-
-button:hover {
-  background-color: #317b5a;
-}
-</style>
+  button:hover {
+    background-color: #317b5a;
+  }
+  </style>

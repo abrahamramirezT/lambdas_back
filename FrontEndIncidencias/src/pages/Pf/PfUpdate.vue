@@ -9,7 +9,6 @@
         <h1 class="text-2xl font-semibold mb-6">Actualizar Incidencia</h1>
 
         <form @submit.prevent="submitForm">
-         
           <div class="mb-4">
             <label for="titulo" class="block text-sm font-medium text-gray-700">Título:</label>
             <input 
@@ -52,7 +51,6 @@
               v-model="form.estatus" 
               required 
               class="mt-1 p-2 w-full border rounded-md"
-              
             >
               <option value="1">Pendiente</option>
               <option value="2">En Progreso</option>
@@ -67,7 +65,6 @@
               @change="onFileChange" 
               accept="image/*" 
               class="mt-1 p-2 w-full border rounded-md"
-              
             />
           </div>
 
@@ -88,7 +85,7 @@
             <input 
               type="text" 
               id="aula" 
-              v-model="form.aula" 
+              v-model="form.aula_nombre" 
               required 
               class="mt-1 p-2 w-full border rounded-md"
               disabled
@@ -100,7 +97,7 @@
             <input 
               type="text" 
               id="edificio" 
-              v-model="form.edificio" 
+              v-model="form.edificio_nombre" 
               required 
               class="mt-1 p-2 w-full border rounded-md"
               disabled
@@ -113,6 +110,42 @@
               type="text" 
               id="matricula" 
               v-model="form.matricula" 
+              required 
+              class="mt-1 p-2 w-full border rounded-md"
+              disabled
+            />
+          </div>
+          
+          <div class="mb-4">
+            <label for="grado" class="block text-sm font-medium text-gray-700">Grado:</label>
+            <input 
+              type="text" 
+              id="grado" 
+              v-model="form.grado_nombre" 
+              required 
+              class="mt-1 p-2 w-full border rounded-md"
+              disabled
+            />
+          </div>
+
+          <div class="mb-4">
+            <label for="grupo" class="block text-sm font-medium text-gray-700">Grupo:</label>
+            <input 
+              type="text" 
+              id="grupo" 
+              v-model="form.grupo_nombre" 
+              required 
+              class="mt-1 p-2 w-full border rounded-md"
+              disabled
+            />
+          </div>
+
+          <div class="mb-4">
+            <label for="div_academica" class="block text-sm font-medium text-gray-700">División Académica:</label>
+            <input 
+              type="text" 
+              id="div_academica" 
+              v-model="form.div_academica_nombre" 
               required 
               class="mt-1 p-2 w-full border rounded-md"
               disabled
@@ -145,11 +178,14 @@ export default {
         titulo: '',
         descripcion: '',
         estudiante: '',
-        aula: '',
-        edificio: '',
+        aula_nombre: '',
+        edificio_nombre: '',
         matricula: '',
         fecha: '',
         estatus: '',
+        grado_nombre: '',
+        grupo_nombre: '',
+        div_academica_nombre: '',
         fto_base64: ''
       },
     };
@@ -164,16 +200,18 @@ export default {
         const response = await axios.get(`https://4ns4y61589.execute-api.us-east-1.amazonaws.com/Stage/read_one_incidence/${reporteId}`);
         const incidencia = response.data;
         this.form = {
-          reporte_id: incidencia.reporte_id,
           titulo: incidencia.titulo,
           descripcion: incidencia.descripcion,
           estudiante: incidencia.estudiante,
-          aula: incidencia.aula,
-          edificio: incidencia.edificio,
+          aula_nombre: incidencia.aula.nombre,  // Acceder al nombre del aula
+          edificio_nombre: incidencia.edificio.nombre,  // Acceder al nombre del edificio
           matricula: incidencia.matricula,
           fecha: incidencia.fecha,
           estatus: incidencia.estatus,
-          fto_base64: '', // No podemos prellenar un input de archivo, así que se deja vacío
+          grado_nombre: incidencia.grado.nombre,  // Acceder al nombre del grado
+          grupo_nombre: incidencia.grupo.nombre,  // Acceder al nombre del grupo
+          div_academica_nombre: incidencia.div_academica.nombre,  // Acceder al nombre de la división académica
+          fto_base64: '' // No podemos prellenar un input de archivo, así que se deja vacío
         };
       } catch (error) {
         console.error('Error al obtener la incidencia:', error);
@@ -181,19 +219,16 @@ export default {
       }
     },
     async submitForm() {
-  const reporteId = this.$route.params.reporte_id;
-  console.log(this.form);  // Verifica los datos que se están enviando
-  try {
-    const response = await axios.put(`https://4ns4y61589.execute-api.us-east-1.amazonaws.com/Stage/update_incidence/${reporteId}`, this.form);
-    console.log(reporteId);
-    alert('Incidencia actualizada exitosamente.');
-    this.$router.push('/home-pf');
-  } catch (error) {
-    console.error('Error al actualizar la incidencia:', error);
-    alert('Hubo un problema al actualizar la incidencia.');
-  }
-}
-,
+      const reporteId = this.$route.params.reporte_id;
+      try {
+        const response = await axios.put(`https://4ns4y61589.execute-api.us-east-1.amazonaws.com/Stage/update_incidence/${reporteId}`, this.form);
+        alert('Incidencia actualizada exitosamente.');
+        this.$router.push('/home-pf');
+      } catch (error) {
+        console.error('Error al actualizar la incidencia:', error);
+        alert('Hubo un problema al actualizar la incidencia.');
+      }
+    },
     onFileChange(event) {
       const file = event.target.files[0];
       if (file) {
@@ -211,9 +246,5 @@ export default {
 <style scoped>
 .bg-gray-100 {
   background-color: #f7f7f7;
-}
-
-.float-right {
-  float: right;
 }
 </style>

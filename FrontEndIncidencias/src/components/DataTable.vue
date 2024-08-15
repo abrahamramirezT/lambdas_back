@@ -68,8 +68,10 @@ export default {
   },
   methods: {
     editItem(item) {
-      this.$emit('edit-item', item);
-    },
+  // Redirige a la ruta con el ID de la incidencia
+  this.$router.push({ name: 'PfUpdate', params: { reporte_id: item.id } });
+},
+
     deleteItem(id) {
       this.$emit('delete-item', id);
     },

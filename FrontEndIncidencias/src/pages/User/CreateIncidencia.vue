@@ -8,179 +8,241 @@
       <div class="bg-white shadow-md rounded-lg p-6">
         <h1 class="text-2xl font-semibold mb-6">Crear Nueva Incidencia</h1>
 
-        <form @submit.prevent="submitForm">
+        <!-- Usamos el componente Form de vee-validate -->
+        <Form @submit="submitForm">
           <div class="mb-4">
             <label for="titulo" class="block text-sm font-medium text-gray-700">Título:</label>
-            <input 
-              type="text" 
-              id="titulo" 
-              v-model="form.titulo" 
-              required 
+            <Field
+              id="titulo"
+              name="titulo"
+              type="text"
+              v-model="form.titulo"
+              rules="required|min:3"
               class="mt-1 p-2 w-full border rounded-md"
             />
+            <ErrorMessage name="titulo" class="text-red-500 text-sm" />
           </div>
 
           <div class="mb-4">
             <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción:</label>
-            <textarea 
-              id="descripcion" 
-              v-model="form.descripcion" 
-              required 
+            <Field
+              as="textarea"
+              id="descripcion"
+              name="descripcion"
+              v-model="form.descripcion"
+              rules="required|min:10"
               class="mt-1 p-2 w-full border rounded-md"
-            ></textarea>
+            />
+            <ErrorMessage name="descripcion" class="text-red-500 text-sm" />
           </div>
 
           <div class="mb-4">
             <label for="estudiante" class="block text-sm font-medium text-gray-700">Estudiante:</label>
-            <input 
-              type="text" 
-              id="estudiante" 
-              v-model="form.estudiante" 
-              required 
+            <Field
+              id="estudiante"
+              name="estudiante"
+              type="text"
+              v-model="form.estudiante"
+              rules="required|alpha"
               class="mt-1 p-2 w-full border rounded-md"
             />
+            <ErrorMessage name="estudiante" class="text-red-500 text-sm" />
           </div>
 
           <!-- Selector de Aula -->
           <div class="mb-4">
             <label for="aula" class="block text-sm font-medium text-gray-700">Aula:</label>
-            <select 
-              id="aula" 
-              v-model="form.aula" 
-              required 
+            <Field
+              as="select"
+              id="aula"
+              name="aula"
+              v-model="form.aula"
+              rules="required"
               class="mt-1 p-2 w-full border rounded-md"
             >
+              <option value="" disabled>Seleccione un aula</option>
               <option v-for="aula in aulas" :key="aula.id" :value="aula.aula_id">
                 {{ aula.nombre }}
               </option>
-            </select>
+            </Field>
+            <ErrorMessage name="aula" class="text-red-500 text-sm" />
           </div>
 
           <!-- Selector de Edificio -->
           <div class="mb-4">
             <label for="edificio" class="block text-sm font-medium text-gray-700">Edificio:</label>
-            <select 
-              id="edificio" 
-              v-model="form.edificio" 
-              required 
+            <Field
+              as="select"
+              id="edificio"
+              name="edificio"
+              v-model="form.edificio"
+              rules="required"
               class="mt-1 p-2 w-full border rounded-md"
             >
+              <option value="" disabled>Seleccione un edificio</option>
               <option v-for="edificio in edificios" :key="edificio.id" :value="edificio.edificio_id">
                 {{ edificio.nombre }}
               </option>
-            </select>
+            </Field>
+            <ErrorMessage name="edificio" class="text-red-500 text-sm" />
           </div>
 
           <!-- Selector de División Académica -->
           <div class="mb-4">
             <label for="div_academica" class="block text-sm font-medium text-gray-700">División Académica:</label>
-            <select 
-              id="div_academica" 
-              v-model="form.div_academica" 
-              required 
+            <Field
+              as="select"
+              id="div_academica"
+              name="div_academica"
+              v-model="form.div_academica"
+              rules="required"
               class="mt-1 p-2 w-full border rounded-md"
             >
+              <option value="" disabled>Seleccione una división</option>
               <option v-for="div_academica in div_academicas" :key="div_academica.id" :value="div_academica.div_aca_id">
                 {{ div_academica.nombre }}
               </option>
-            </select>
+            </Field>
+            <ErrorMessage name="div_academica" class="text-red-500 text-sm" />
           </div>
 
           <!-- Selector de Grado -->
           <div class="mb-4">
             <label for="grado" class="block text-sm font-medium text-gray-700">Grado:</label>
-            <select 
-              id="grado" 
-              v-model="form.grado" 
-              required 
+            <Field
+              as="select"
+              id="grado"
+              name="grado"
+              v-model="form.grado"
+              rules="required"
               class="mt-1 p-2 w-full border rounded-md"
             >
+              <option value="" disabled>Seleccione un grado</option>
               <option v-for="grado in grados" :key="grado.id" :value="grado.grado_id">
                 {{ grado.nombre }}
               </option>
-            </select>
+            </Field>
+            <ErrorMessage name="grado" class="text-red-500 text-sm" />
           </div>
 
           <!-- Selector de Grupo -->
           <div class="mb-4">
             <label for="grupo" class="block text-sm font-medium text-gray-700">Grupo:</label>
-            <select 
-              id="grupo" 
-              v-model="form.grupo" 
-              required 
+            <Field
+              as="select"
+              id="grupo"
+              name="grupo"
+              v-model="form.grupo"
+              rules="required"
               class="mt-1 p-2 w-full border rounded-md"
             >
+              <option value="" disabled>Seleccione un grupo</option>
               <option v-for="grupo in grupos" :key="grupo.id" :value="grupo.grupo_id">
                 {{ grupo.nombre }}
               </option>
-            </select>
+            </Field>
+            <ErrorMessage name="grupo" class="text-red-500 text-sm" />
           </div>
 
           <div class="mb-4">
             <label for="matricula" class="block text-sm font-medium text-gray-700">Matricula:</label>
-            <input 
-              type="text" 
-              id="matricula" 
-              v-model="form.matricula" 
-              required 
+            <Field
+              id="matricula"
+              name="matricula"
+              type="text"
+              v-model="form.matricula"
+              rules="required|alpha_num"
               class="mt-1 p-2 w-full border rounded-md"
             />
+            <ErrorMessage name="matricula" class="text-red-500 text-sm" />
           </div>
 
           <div class="mb-4">
             <label for="fecha" class="block text-sm font-medium text-gray-700">Fecha:</label>
-            <input 
-              type="date" 
-              id="fecha" 
-              v-model="form.fecha" 
-              required 
+            <Field
+              id="fecha"
+              name="fecha"
+              type="date"
+              v-model="form.fecha"
+              rules="required"
               class="mt-1 p-2 w-full border rounded-md"
             />
+            <ErrorMessage name="fecha" class="text-red-500 text-sm" />
           </div>
 
           <div class="mb-4">
             <label for="estatus" class="block text-sm font-medium text-gray-700">Estatus:</label>
-            <select 
-              id="estatus" 
-              v-model="form.estatus" 
-              required 
+            <Field
+              id="estatus"
+              name="estatus"
+              type="text"
+              v-model="form.estatus"
+              rules="required"
               class="mt-1 p-2 w-full border rounded-md"
               disabled
-            >
-              <option value="1">Pendiente</option>
-            </select>
+            />
+            <ErrorMessage name="estatus" class="text-red-500 text-sm" />
           </div>
 
+          <!-- Campo para Subir Imagen (Solo JPG) -->
           <div class="mb-4">
             <label for="foto" class="block text-sm font-medium text-gray-700">Subir Foto:</label>
-            <input 
-              type="file" 
-              id="foto" 
-              @change="onFileChange" 
-              accept="image/*" 
+            <Field
+              id="foto"
+              name="foto"
+              type="file"
+              rules="required|jpg"
+              @change="onFileChange"
+              accept="image/jpeg"
               class="mt-1 p-2 w-full border rounded-md"
             />
+            <ErrorMessage name="foto" class="text-red-500 text-sm" />
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
             Enviar Incidencia
           </button>
-        </form>
+        </Form>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { Form, Field, ErrorMessage, defineRule } from 'vee-validate';
+import { required, min, alpha, alpha_num } from '@vee-validate/rules';
 import AppNavbar from '@/components/AppNavbar.vue';
 import axios from 'axios';
+
+// Definir reglas de validación
+defineRule('required', required);
+defineRule('min', min);
+defineRule('alpha', alpha);
+defineRule('alpha_num', alpha_num);
+
+// Regla personalizada para validar archivos JPG
+defineRule('jpg', (value) => {
+  if (!value || !value[0]) return 'Debe seleccionar una imagen jpg.';
+  
+  const file = value[0];
+  const validTypes = ['image/jpeg', 'image/jpg'];
+
+  if (!validTypes.includes(file.type)) {
+    return 'El archivo debe ser un JPG.';
+  }
+
+  return true;
+});
 
 export default {
   components: {
     AppNavbar,
+    Form,
+    Field,
+    ErrorMessage,
   },
   data() {
     return {
@@ -198,8 +260,8 @@ export default {
         estatus: '1',
         fto_base64: '',
       },
-      aulas: [], // Array para almacenar las aulas
-      edificios: [], // Array para almacenar los edificios
+      aulas: [],
+      edificios: [],
       grados: [],
       grupos: [],
       div_academicas: [],
@@ -216,18 +278,15 @@ export default {
     async fetchAulas() {
       try {
         const response = await axios.get('https://c8eynvsepi.execute-api.us-east-1.amazonaws.com/Stage/read_all_aula');
-        this.aulas = response.data; // Asume que la API devuelve un array de aulas con { id, nombre }
-        console.log(this.aulas); // Verifica que los datos se están cargando correctamente
-
+        this.aulas = response.data;
       } catch (error) {
         console.error('Error al obtener las aulas:', error);
       }
-
     },
     async fetchEdificios() {
       try {
         const response = await axios.get('https://bqscm2peg3.execute-api.us-east-1.amazonaws.com/Stage/read_all_edificio');
-        this.edificios = response.data; // Asume que la API devuelve un array de edificios con { id, nombre }
+        this.edificios = response.data;
       } catch (error) {
         console.error('Error al obtener los edificios:', error);
       }
@@ -235,7 +294,7 @@ export default {
     async fetchDivisionesAcademicas() {
       try {
         const response = await axios.get('https://a9mo06q838.execute-api.us-east-1.amazonaws.com/Stage/read_all_div_academica');
-        this.div_academicas = response.data; // Asume que la API devuelve un array de divisiones académicas con { id, nombre }
+        this.div_academicas = response.data;
       } catch (error) {
         console.error('Error al obtener las divisiones académicas:', error);
       }
@@ -243,9 +302,7 @@ export default {
     async fetchGrado() {
       try {
         const response = await axios.get('https://lp51xyfzbk.execute-api.us-east-1.amazonaws.com/Stage/read_all_grado');
-        this.grados = response.data; // Asume que la API devuelve un array de grados con { id, nombre }
-        console.log(this.grados); 
-
+        this.grados = response.data;
       } catch (error) {
         console.error('Error al obtener los grados:', error);
       }
@@ -253,15 +310,13 @@ export default {
     async fetchGrupo() {
       try {
         const response = await axios.get('https://xfy9zgjuxf.execute-api.us-east-1.amazonaws.com/Stage/read_all_grupo');
-        this.grupos = response.data; // Asume que la API devuelve un array de grupos con { id, nombre }
-        console.log(this.grupos); 
+        this.grupos = response.data;
       } catch (error) {
         console.error('Error al obtener los grupos:', error);
       }
     },
     async submitForm() {
       try {
-        console.log("Datos enviados:", this.form); 
         const response = await axios.post('https://4ns4y61589.execute-api.us-east-1.amazonaws.com/Stage/create_incidence', this.form);
         alert('Incidencia creada exitosamente.');
         this.$router.push('/home-user');
@@ -275,7 +330,7 @@ export default {
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.form.fto_base64 = e.target.result.split(',')[1]; // Guardar solo la parte base64
+          this.form.fto_base64 = e.target.result.split(',')[1];
         };
         reader.readAsDataURL(file);
       }

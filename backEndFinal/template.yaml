@@ -222,7 +222,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref MyApi
-            Path: /read_one_incidence/{reporte_id}
+            Path: /read_one_incidence/{id}
             Method: get
       Environment:
         Variables:
@@ -242,7 +242,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref MyApi
-            Path: /update_incidence/{reporte_id}
+            Path: /update_incidence/{id}
             Method: put
       Environment:
         Variables:
@@ -262,7 +262,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref MyApi
-            Path: /delete_incidence/{reporte_id}
+            Path: /delete_incidence/{id}
             Method: delete
       Environment:
         Variables:

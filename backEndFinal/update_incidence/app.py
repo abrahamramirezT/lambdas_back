@@ -57,7 +57,7 @@ def lambda_handler(event, context):
 
         # Cargar datos del evento
         data = json.loads(event['body'])
-        reporte_id = data['reporte_id']
+        id = data['id']
         estatus = data['estatus']
         fto_base64 = data.get('fto_base64')  # Obtener la imagen si se envía
 
@@ -78,16 +78,16 @@ def lambda_handler(event, context):
             sql = """
             UPDATE reportes_incidencias
             SET estatus = %s, fto_url = %s
-            WHERE reporte_id = %s
+            WHERE id = %s
             """
-            cursor.execute(sql, (estatus, fto_url, reporte_id))
+            cursor.execute(sql, (estatus, fto_url, id))
         else:
             sql = """
             UPDATE reportes_incidencias
             SET estatus = %s
-            WHERE reporte_id = %s
+            WHERE id = %s
             """
-            cursor.execute(sql, (estatus, reporte_id))
+            cursor.execute(sql, (estatus, id))
 
         connection.commit()
 

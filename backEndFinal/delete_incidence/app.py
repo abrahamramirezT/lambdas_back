@@ -51,11 +51,11 @@ def lambda_handler(event, context):
         cursor = connection.cursor()
 
         # Obtener el identificador del reporte del parámetro de ruta
-        reporte_id = event['pathParameters']['reporte_id']
+        id = event['pathParameters']['id']
 
         # Consulta para eliminar un reporte específico
-        sql = "DELETE FROM reportes_incidencias WHERE reporte_id = %s"
-        cursor.execute(sql, (reporte_id,))
+        sql = "DELETE FROM reportes_incidencias WHERE id = %s"
+        cursor.execute(sql, (id,))
         connection.commit()
 
         if cursor.rowcount > 0:

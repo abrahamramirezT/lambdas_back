@@ -88,7 +88,9 @@ export default {
           grupo: grupo,
           div_academica: divisionAcademica,
           estatus: incidencia.estatus,
-          fto_url: incidencia.fto_url
+          fto_url: incidencia.fto_url,
+          actions: true
+
         };
       });
     } catch (error) {
