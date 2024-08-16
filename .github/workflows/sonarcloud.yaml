@@ -16,6 +16,20 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r backEndFinal/requirements.txt
+          pip install pytest pytest-cov
+
+      - name: Run tests and generate coverage report
+        run: |
+          pytest --cov=backEndFinal --cov-report=xml
+
       - name: SonarCloud scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
@@ -26,7 +40,8 @@ jobs:
             -Dsonar.organization=backend1
             -Dsonar.projectKey=abrahamramirezT_lambdas_back
             -Dsonar.sources=backEndFinal
-            -Dsonar.python.coverage.reportPaths=backEndFinal/coverage.
+            -Dsonar.python.coverage.reportPaths=backEndFinal/coverage.xml
+            -Dsonar.exclusions=**/tests/**
 
   deploy:
     name: Deploy to AWS
@@ -45,69 +60,15 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies for create_incidence
+      # Automatiza la instalación de dependencias en cada directorio
+      - name: Install dependencies for all Lambda functions
         run: |
-          cd backEndFinal/create_incidence/
-          pip install -r requirements.txt
+          for dir in backEndFinal/*; do
+            if [ -f "$dir/requirements.txt" ]; then
+              pip install -r "$dir/requirements.txt"
+            fi
+          done
 
-      - name: Install dependencies for delete_incidence
-        run: |
-          cd backEndFinal/delete_incidence/
-          pip install -r requirements.txt
-
-      - name: Install dependencies for login
-        run: |
-          cd backEndFinal/login/
-
-      - name: Install dependencies for read all incidence
-        run: |
-          cd backEndFinal/read_all_incidence/
-          pip install -r requirements.txt
-
-      - name: Install dependencies for read_one_incidence
-        run: |
-          cd backEndFinal/read_one_incidence/
-          pip install -r requirements.txt
-
-      - name: Install dependencies for set_password
-        run: |
-          cd backEndFinal/set_password/
-
-      - name: Install dependencies for update_incidence
-        run: |
-          cd backEndFinal/update_incidence/
-          pip install -r requirements.txt
-
-      - name: Install dependencies for read_aula_all
-        run: |
-          cd backEndFinal/read_aula_all/
-          pip install -r requirements.txt
-          
-      - name: Install dependencies for read_div_academica_all
-        run: |
-          cd backEndFinal/read_div_academica_all/
-          pip install -r requirements.txt
-
-      - name: Install dependencies for read_edificio_all
-        run: |
-          cd backEndFinal/read_edificio_all/
-          pip install -r requirements.txt
-
-      - name: Install dependencies for read_grado_all
-        run: |
-          cd backEndFinal/read_grado_all/
-          pip install -r requirements.txt
-
-      - name: Install dependencies for read_grupo_all
-        run: |
-          cd backEndFinal/read_grupo_all/
-          pip install -r requirements.txt
-
-      - name: Install dependencies for update_only_status
-        run: |
-          cd backEndFinal/update_only_status/
-          pip install -r requirements.txt
-          
       - name: Install AWS CLI
         run: |
           sudo apt-get update
@@ -126,4 +87,3 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
-
