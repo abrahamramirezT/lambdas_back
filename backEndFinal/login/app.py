@@ -37,7 +37,7 @@ def lambda_handler(event, __):
     secret_name = os.environ['MY_COGNITO_SECRET_NAME']
     region_name = os.environ['MY_AWS_REGION']
 
-    # Recuperar los secretos
+    # Recuperar los secretos    
     secret = get_secret(secret_name, region_name)
     client_id = secret['client_id']
     user_pool_id = secret['user_pool_id']
@@ -45,9 +45,9 @@ def lambda_handler(event, __):
     client = boto3.client('cognito-idp', region_name='us-east-1')
 
     headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST,OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+        'Access-Control-Allow-Methods': 'POST,OPTIONS',
+        'Access-Control-Allow-Origin': '*',
     }
 
     try:

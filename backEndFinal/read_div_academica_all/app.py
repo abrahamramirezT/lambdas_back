@@ -30,9 +30,9 @@ def lambda_handler(event, __):
     region_name = os.environ['MY_AWS_REGION']
 
     headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET,OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+        'Access-Control-Allow-Methods': 'POST,OPTIONS',
+        'Access-Control-Allow-Origin': '*',
     }
 
     try:

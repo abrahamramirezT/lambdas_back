@@ -27,10 +27,9 @@ def lambda_handler(event, context):
     secret_name = os.environ['MY_SECRET_NAME']
     region_name = os.environ['MY_AWS_REGION']
     headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'DELETE,OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
-
+        'Access-Control-Allow-Methods': 'POST,OPTIONS',
+        'Access-Control-Allow-Origin': '*',
     }
     try:
         secret = get_secret(secret_name, region_name)

@@ -34,9 +34,9 @@ def lambda_handler(event, context):
     bucket_name = os.environ['S3_BUCKET']
 
     headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'PUT,OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+        'Access-Control-Allow-Methods': 'POST,OPTIONS',
+        'Access-Control-Allow-Origin': '*',
     }
 
     try:
@@ -77,7 +77,7 @@ def lambda_handler(event, context):
         if fto_url:
             sql = """
             UPDATE reportes_incidencias
-            SET estatus = %s, fto_url = %s
+            SET estatus = %s 
             WHERE id = %s
             """
             cursor.execute(sql, (estatus, fto_url, id))
