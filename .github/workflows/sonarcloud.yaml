@@ -78,6 +78,31 @@ jobs:
           cd backEndFinal/update_incidence/
           pip install -r requirements.txt
 
+      - name: Install dependencies for read_aula_all
+        run: |
+          cd backEndFinal/read_aula_all/
+          pip install -r requirements.txt
+          
+      - name: Install dependencies for read_div_academica_all
+        run: |
+          cd backEndFinal/read_div_academica_all/
+          pip install -r requirements.txt
+
+      - name: Install dependencies for read_edificio_all
+        run: |
+          cd backEndFinal/read_edificio_all/
+          pip install -r requirements.txt
+
+      - name: Install dependencies for read_grado_all
+        run: |
+          cd backEndFinal/read_grado_all/
+          pip install -r requirements.txt
+
+      - name: Install dependencies for read_grupo_all
+        run: |
+          cd backEndFinal/read_grupo_all/
+          pip install -r requirements.txt
+          
       - name: Install AWS CLI
         run: |
           sudo apt-get update
