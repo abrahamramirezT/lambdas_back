@@ -25,8 +25,8 @@ jobs:
           args: >
             -Dsonar.organization=backend1
             -Dsonar.projectKey=abrahamramirezT_lambdas_back
-            -Dsonar.sources=BackEndIncidencias
-            -Dsonar.python.coverage.reportPaths=BackEndIncidencias/coverage.
+            -Dsonar.sources=backEndFinal
+            -Dsonar.python.coverage.reportPaths=backEndFinal/coverage.
 
   deploy:
     name: Deploy to AWS
@@ -47,37 +47,35 @@ jobs:
 
       - name: Install dependencies for create_incidence
         run: |
-          cd create_incidence/
+          cd backEndFinal/create_incidence/
           pip install -r requirements.txt
 
       - name: Install dependencies for delete_incidence
         run: |
-          cd delete_incidence/
+          cd backEndFinal/delete_incidence/
           pip install -r requirements.txt
 
       - name: Install dependencies for login
         run: |
-          cd login/
-          pip install -r requirements.txt
+          cd backEndFinal/login/
 
       - name: Install dependencies for read all incidence
         run: |
-          cd read_all_incidence/
+          cd backEndFinal/read_all_incidence/
           pip install -r requirements.txt
 
-      - name: Install dependencies for read one incidence
+      - name: Install dependencies for read_one_incidence
         run: |
-          cd read_one_incidence/
+          cd backEndFinal/read_one_incidence/
           pip install -r requirements.txt
 
-      - name: Install dependencies for set password
+      - name: Install dependencies for set_password
         run: |
-          cd set_password/
-          pip install -r requirements.txt
+          cd backEndFinal/set_password/
 
-      - name: Install dependencies for update incidence
+      - name: Install dependencies for update_incidence
         run: |
-          cd update_incidence/
+          cd backEndFinal/update_incidence/
           pip install -r requirements.txt
 
       - name: Install AWS CLI
@@ -90,10 +88,10 @@ jobs:
           pip install aws-sam-cli
 
       - name: Build SAM application
-        run: sam build -t template.yaml
+        run: sam build -t backEndFinal/template.yaml
 
       - name: Deploy SAM application
-        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name incidenciaIntegradora9A --capabilities CAPABILITY_IAM --resolve-s3
+        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name backEnd --capabilities CAPABILITY_IAM 
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
