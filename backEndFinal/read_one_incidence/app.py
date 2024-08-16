@@ -43,8 +43,8 @@ def lambda_handler(event, __):
         db_name = secret['dbname']
 
         # Obtener el ID del reporte desde el evento
-        reporte_id = event['pathParameters']['reporte_id']
-        if not reporte_id:
+        id = event['pathParameters']['id']
+        if not id:
             return {
                 'statusCode': 400,
                 'headers': headers,
@@ -61,25 +61,57 @@ def lambda_handler(event, __):
         cursor = connection.cursor()
 
         # Consulta del reporte específico por ID
-        sql = "SELECT * FROM reportes_incidencias WHERE reporte_id = %s"
-        cursor.execute(sql, (reporte_id,))
+        sql = """
+        SELECT 
+            r.id,
+            r.titulo,
+            r.fecha,
+            r.descripcion,
+            r.estudiante,
+            a.nombre AS aula_nombre,
+            e.nombre AS edificio_nombre,
+            r.matricula,
+            g.nombre AS grado_nombre,
+            grp.nombre AS grupo_nombre,
+            d.nombre AS div_academica_nombre,
+            r.estatus,
+            r.fto_url
+        FROM 
+            reportes_incidencias r
+        JOIN 
+            aulas a ON r.aula = a.aula_id
+        JOIN 
+            edificios e ON r.edificio = e.edificio_id
+        JOIN 
+            grado g ON r.grado = g.grado_id
+        JOIN 
+            grupo grp ON r.grupo = grp.grupo_id
+        JOIN 
+            divisiones_academicas d ON r.div_academica = d.div_aca_id
+        WHERE 
+            r.id = %s;
+        """
+        cursor.execute(sql, (id,))
         reporte = cursor.fetchone()
 
         if reporte:
             try:
                 # Convertir la fecha a cadena de texto antes de serializar a JSON
-                reporte_date_joined_str = reporte[2].strftime('%Y-%m-%d')  # Asegúrate de que el índice sea correcto
+                reporte_date_joined_str = reporte[2].strftime('%Y-%m-%d')
                 reporte_dict = {
-                    'reporte_id': reporte[0],
+                    'id': reporte[0],
                     'titulo': reporte[1],
                     'fecha': reporte_date_joined_str,
                     'descripcion': reporte[3],
                     'estudiante': reporte[4],
-                    'aula': reporte[5],
-                    'edificio': reporte[6],
+                    'aula_nombre': reporte[5],
+                    'edificio_nombre': reporte[6],
                     'matricula': reporte[7],
-                    'estatus': reporte[8],
-                    'fto_url': reporte[9]
+                    'grado_nombre': reporte[8],
+                    'grupo_nombre': reporte[9],
+                    'div_academica_nombre': reporte[10],
+                    'estatus': reporte[11],
+                    'fto_url': reporte[12]
                 }
                 return {
                     'statusCode': 200,
@@ -97,7 +129,7 @@ def lambda_handler(event, __):
             return {
                 'statusCode': 404,
                 'headers': headers,
-                'body': json.dumps({'error': f"No se encontró el reporte con ID {reporte_id}"})
+                'body': json.dumps({'error': f"No se encontró el reporte con ID {id}"})
             }
 
     except Error as e:
