@@ -166,6 +166,7 @@ Resources:
                   - "cognito-idp:AdminInitiateAuth"
                   - "cognito-idp:AdminUserGlobalSignOut"
                   - "cognito-idp:AdminListGroupsForUser"
+                  - "cognito-idp:InitiateAut"
                 Resource: "*"
 
 
@@ -409,6 +410,26 @@ Resources:
             RestApiId: !Ref MyApiGrupo
             Path: /read_all_grupo
             Method: get
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+  UpdateIncidenceStatusFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: update_only_status/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        UpdateIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApi
+            Path: /update_status/{id}
+            Method: put
       Environment:
         Variables:
           MY_SECRET_NAME: !Ref MyRDSSecret

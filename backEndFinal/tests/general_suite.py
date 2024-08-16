@@ -11,7 +11,7 @@ import tests.unit.test_read_edificio as test_read_edificio
 import tests.unit.test_read_grado as test_read_grado
 import tests.unit.test_read_grupo as test_read_grupo
 import tests.unit.test_read_one_incidence as test_read_one_incidence
-
+import tests.unit.test_app_update_only_status as tes_update_status
 
 
 loader = unittest.TestLoader()
@@ -29,6 +29,8 @@ suite.addTests(loader.loadTestsFromModule(test_read_edificio))
 suite.addTests(loader.loadTestsFromModule(test_read_grado))
 suite.addTests(loader.loadTestsFromModule(test_read_grupo))
 suite.addTests(loader.loadTestsFromModule(test_read_one_incidence))
+suite.addTests(loader.loadTestsFromModule(tes_update_status))
+
 
 
 
