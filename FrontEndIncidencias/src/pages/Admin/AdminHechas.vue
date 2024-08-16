@@ -45,7 +45,7 @@ export default {
     this.fetchItems();
   },
    methods: {
-  async fetchItems() {
+    async fetchItems() {
     try {
       // Obtener las incidencias
       const response = await axios.get('https://4ns4y61589.execute-api.us-east-1.amazonaws.com/Stage/read_all_incidence');
@@ -89,8 +89,11 @@ export default {
           estatus: incidencia.estatus,
           fto_url: incidencia.fto_url,
           actions: true
+
         };
+        
       });
+      this.renderCharts();
     } catch (error) {
       console.error('Error al obtener las incidencias:', error);
       alert('Hubo un problema al cargar las incidencias.');

@@ -9,6 +9,7 @@ import AdminAutorizadas from '@/pages/Admin/AdminAutorizadas.vue';
 import PfHechas from '@/pages/Pf/PfHechas.vue'
 import CreateIncidencia from '@/pages/User/CreateIncidencia.vue';
 import PfUpdate from '@/pages/Pf/PfUpdate.vue'
+import AdminUpdate from '../pages/Admin/AdminUpdate.vue';
 const routes = [
   {
     path: '/',
@@ -57,6 +58,15 @@ const routes = [
     path: '/admin-hechas',
     name: 'AdminHechas',
     component: AdminHechas,
+    meta: {
+      requiresAuth: true,
+      role: 'admin',
+    },
+  },
+  {
+    path: '/admin-update/:reporte_id',
+    name: 'AdminUpdate',
+    component: AdminUpdate,
     meta: {
       requiresAuth: true,
       role: 'admin',

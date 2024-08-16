@@ -191,7 +191,6 @@
               id="foto"
               name="foto"
               type="file"
-              rules="required|jpg"
               @change="onFileChange"
               accept="image/jpeg"
               class="mt-1 p-2 w-full border rounded-md"

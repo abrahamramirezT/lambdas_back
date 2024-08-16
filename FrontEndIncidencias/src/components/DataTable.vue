@@ -14,7 +14,7 @@
               <template v-if="key === 'actions'">
                 <!-- Si el rol es Admin, muestra Aprobar, Rechazar, Actualizar y Eliminar -->
                 <template v-if="role === 'admin'">
-                  <button @click="editItem(item)" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                  <button @click="editItemAdmin(item)" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
                     Actualizar
                   </button>
                   <button @click="deleteItem(item.id)" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
@@ -71,9 +71,26 @@ export default {
   // Redirige a la ruta con el ID de la incidencia
   this.$router.push({ name: 'PfUpdate', params: { reporte_id: item.id } });
 },
+editItemAdmin(item) {
+  // Redirige a la ruta con el ID de la incidencia
+  this.$router.push({ name: 'AdminUpdate', params: { reporte_id: item.id } });
+},
 
-    deleteItem(id) {
-      this.$emit('delete-item', id);
+async deleteItem(id) {
+      if (confirm("¿Estás seguro de que deseas eliminar esta incidencia?")) {
+        try {
+          // Realiza la solicitud DELETE a la API
+          await axios.delete(`https://4ns4y61589.execute-api.us-east-1.amazonaws.com/Stage/delete_incidence/${id}`);
+          alert('Incidencia eliminada exitosamente.');
+
+          // Refresca la lista de incidencias o remueve la incidencia eliminada de la lista
+          this.items = this.items.filter(item => item.id !== id);
+
+        } catch (error) {
+          console.error('Error al eliminar la incidencia:', error);
+          alert('Hubo un problema al eliminar la incidencia.');
+        }
+      }
     },
     approveItem(id) {
       this.$emit('approve-item', id);

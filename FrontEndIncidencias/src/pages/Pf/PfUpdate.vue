@@ -175,17 +175,7 @@ export default {
   data() {
     return {
       form: {
-        titulo: '',
-        descripcion: '',
-        estudiante: '',
-        aula_nombre: '',
-        edificio_nombre: '',
-        matricula: '',
-        fecha: '',
         estatus: '',
-        grado_nombre: '',
-        grupo_nombre: '',
-        div_academica_nombre: '',
         fto_base64: ''
       },
     };
@@ -203,15 +193,15 @@ export default {
           titulo: incidencia.titulo,
           descripcion: incidencia.descripcion,
           estudiante: incidencia.estudiante,
-          aula_nombre: incidencia.aula.nombre,  // Acceder al nombre del aula
-          edificio_nombre: incidencia.edificio.nombre,  // Acceder al nombre del edificio
+          aula_nombre: incidencia.aula_nombre,
+          edificio_nombre: incidencia.edificio_nombre,
           matricula: incidencia.matricula,
           fecha: incidencia.fecha,
           estatus: incidencia.estatus,
-          grado_nombre: incidencia.grado.nombre,  // Acceder al nombre del grado
-          grupo_nombre: incidencia.grupo.nombre,  // Acceder al nombre del grupo
-          div_academica_nombre: incidencia.div_academica.nombre,  // Acceder al nombre de la división académica
-          fto_base64: '' // No podemos prellenar un input de archivo, así que se deja vacío
+          grado_nombre: incidencia.grado_nombre,
+          grupo_nombre: incidencia.grupo_nombre,
+          div_academica_nombre: incidencia.div_academica_nombre,
+          fto_base64: ''
         };
       } catch (error) {
         console.error('Error al obtener la incidencia:', error);
@@ -220,8 +210,14 @@ export default {
     },
     async submitForm() {
       const reporteId = this.$route.params.reporte_id;
+      const data = {
+        id: reporteId,
+        estatus: this.form.estatus,
+        fto_base64: this.form.fto_base64, // Este campo solo se envía si se selecciona una imagen
+      };
+      
       try {
-        const response = await axios.put(`https://4ns4y61589.execute-api.us-east-1.amazonaws.com/Stage/update_incidence/${reporteId}`, this.form);
+        await axios.put(`https://4ns4y61589.execute-api.us-east-1.amazonaws.com/Stage/update_incidence/${reporteId}`, data);
         alert('Incidencia actualizada exitosamente.');
         this.$router.push('/home-pf');
       } catch (error) {
@@ -229,12 +225,13 @@ export default {
         alert('Hubo un problema al actualizar la incidencia.');
       }
     },
+
     onFileChange(event) {
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.form.fto_base64 = e.target.result.split(',')[1]; // Guardar solo la parte base64
+          this.form.fto_base64 = e.target.result.split(',')[1];
         };
         reader.readAsDataURL(file);
       }
