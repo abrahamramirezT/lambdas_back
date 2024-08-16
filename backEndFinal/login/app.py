@@ -37,7 +37,7 @@ def lambda_handler(event, __):
     secret_name = os.environ['MY_COGNITO_SECRET_NAME']
     region_name = os.environ['MY_AWS_REGION']
 
-    # Recuperar los secretos    
+    # Recuperar los secretos
     secret = get_secret(secret_name, region_name)
     client_id = secret['client_id']
     user_pool_id = secret['user_pool_id']
