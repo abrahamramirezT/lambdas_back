@@ -78,6 +78,31 @@ jobs:
           cd backEndFinal/update_incidence/
           pip install -r requirements.txt
 
+      - name: Install dependencies for read_aula_all
+        run: |
+          cd backEndFinal/read_aula_all/
+          pip install -r requirements.txt
+          
+      - name: Install dependencies for read_div_academica_all
+        run: |
+          cd backEndFinal/read_div_academica_all/
+          pip install -r requirements.txt
+
+      - name: Install dependencies for read_edificio_all
+        run: |
+          cd backEndFinal/read_edificio_all/
+          pip install -r requirements.txt
+
+      - name: Install dependencies for read_grado_all
+        run: |
+          cd backEndFinal/read_grado_all/
+          pip install -r requirements.txt
+
+      - name: Install dependencies for read_grupo_all
+        run: |
+          cd backEndFinal/read_grupo_all/
+          pip install -r requirements.txt
+          
       - name: Install AWS CLI
         run: |
           sudo apt-get update
@@ -91,8 +116,9 @@ jobs:
         run: sam build -t backEndFinal/template.yaml
 
       - name: Deploy SAM application
-        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name backEnd --capabilities CAPABILITY_IAM 
+        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name backEnd --capabilities CAPABILITY_IAM --s3-bucket bucketimages-026090539382-us-east-1
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
+
