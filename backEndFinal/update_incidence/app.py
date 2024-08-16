@@ -6,6 +6,7 @@ import logging
 import boto3
 from botocore.exceptions import ClientError, BotoCoreError
 import base64
+import uuid
 from typing import Dict
 
 # Configuración del logger
@@ -56,11 +57,8 @@ def lambda_handler(event, context):
 
         # Cargar datos del evento
         data = json.loads(event['body'])
-        titulo = data["titulo"]
-        fecha = data['fecha']
-        descripcion = data['descripcion']
+        id = data['id']
         estatus = data['estatus']
-        reporte_id = data['reporte_id']
         fto_base64 = data.get('fto_base64')  # Obtener la imagen si se envía
 
         fto_url = None
@@ -68,7 +66,7 @@ def lambda_handler(event, context):
             # Decodificar la imagen de base64 y subirla a S3
             try:
                 fto_data = base64.b64decode(fto_base64)
-                fto_key = f"{titulo.replace(' ', '_')}_{fecha}.jpg"
+                fto_key = f"{str(uuid.uuid4())}.jpg"  # Generar un nombre único utilizando UUID
                 s3_client.put_object(Bucket=bucket_name, Key=fto_key, Body=fto_data, ContentType='image/jpeg')
                 fto_url = f"https://{bucket_name}.s3.amazonaws.com/{fto_key}"
             except Exception as e:
@@ -79,17 +77,17 @@ def lambda_handler(event, context):
         if fto_url:
             sql = """
             UPDATE reportes_incidencias
-            SET titulo = %s, fecha = %s, descripcion = %s, estatus = %s, fto_url = %s
-            WHERE reporte_id = %s
+            SET estatus = %s, fto_url = %s
+            WHERE id = %s
             """
-            cursor.execute(sql, (titulo, fecha, descripcion, estatus, fto_url, reporte_id))
+            cursor.execute(sql, (estatus, fto_url, id))
         else:
             sql = """
             UPDATE reportes_incidencias
-            SET titulo = %s, fecha = %s, descripcion = %s, estatus = %s
-            WHERE reporte_id = %s
+            SET estatus = %s, fto_url = %s
+            WHERE id = %s
             """
-            cursor.execute(sql, (titulo, fecha, descripcion, estatus, reporte_id))
+            cursor.execute(sql, (estatus, id))
 
         connection.commit()
 

@@ -5,7 +5,7 @@ Description: >
 
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 2
     Runtime: python3.11
     Architectures:
       - x86_64
@@ -85,24 +85,51 @@ Resources:
       LogGroupName: "/aws/lambda/MyLogGroup"
       RetentionInDays: 14
 
-  # API Gateway
+  # API Gateway Indicencias CRUD
   MyApi:
     Type: "AWS::Serverless::Api"
     Properties:
       Name: "MyApiGateway"
       StageName: "prod"
 
+
+  MyApiAula:
+    Type: "AWS::Serverless::Api"
+    Properties:
+      Name: "MyApiGatewayAula"
+      StageName: "prod"
+
+  MyApiEdificio:
+    Type: "AWS::Serverless::Api"
+    Properties:
+      Name: "MyApiGatewayEdificio"
+      StageName: "prod"
+
+  MyApiDivisionAcademica:
+    Type: "AWS::Serverless::Api"
+    Properties:
+      Name: "MyApiGatewayDivisionAcademica"
+      StageName: "prod"
+
+  MyApiGrado:
+    Type: "AWS::Serverless::Api"
+    Properties:
+      Name: "MyApiGatewayGrado"
+      StageName: "prod"
+
+  MyApiGrupo:
+    Type: "AWS::Serverless::Api"
+    Properties:
+      Name: "MyApiGatewayGrupo"
+      StageName: "prod"
+
   MyApiLogin:
     Type: "AWS::Serverless::Api"
     Properties:
-      Name: "MyApiGateway"
+      Name: "MyApiGatewayLogin"
       StageName: "prod"
 
-  MyApiUser:
-    Type: "AWS::Serverless::Api"
-    Properties:
-      Name: "MyApiGateway"
-      StageName: "prod"
+
 
   # IAM Role for Lambda Execution
   LambdaExecutionRole:
@@ -183,6 +210,26 @@ Resources:
           S3_BUCKET: !Ref MyS3Bucket
           DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
 
+  ReadOneIncidenceFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_one_incidence/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        GetOneIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApi
+            Path: /read_one_incidence/{id}
+            Method: get
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
   UpdateIncidenceFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
@@ -194,7 +241,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref MyApi
-            Path: /update_incidence/{reporte_id}
+            Path: /update_incidence/{id}
             Method: put
       Environment:
         Variables:
@@ -214,7 +261,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref MyApi
-            Path: /delete_incidence/{reporte_id}
+            Path: /delete_incidence/{id}
             Method: delete
       Environment:
         Variables:
@@ -259,22 +306,118 @@ Resources:
           MY_COGNITO_SECRET_NAME: !Ref MyNewCognitoSecret
           MY_AWS_REGION: "us-east-1"
 
-  CreateUserFunction:
+  ReadAllAulaFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
-      CodeUri: create_user/
+      CodeUri: read_aula_all/
       Handler: app.lambda_handler
       Role: !GetAtt LambdaExecutionRole.Arn
       Events:
-        CreateIncidence:
+        GetAllIncidence:
           Type: Api
           Properties:
-            RestApiId: !Ref MyApiUser
-            Path: /create_user
-            Method: post
+            RestApiId: !Ref MyApiAula
+            Path: /read_all_aula
+            Method: get
       Environment:
         Variables:
           MY_SECRET_NAME: !Ref MyRDSSecret
           MY_AWS_REGION: "us-east-1"
           S3_BUCKET: !Ref MyS3Bucket
           DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+
+
+  ReadAllEdificioFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_edificio_all/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        GetAllIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApiEdificio
+            Path: /read_all_edificio
+            Method: get
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+
+
+  ReadAllDivisionAcademicaFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_div_academica_all/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        GetAllIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApiDivisionAcademica
+            Path: /read_all_div_academica
+            Method: get
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+
+
+
+  ReadAllGradoFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_grado_all/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        GetAllIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApiGrado
+            Path: /read_all_grado
+            Method: get
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+
+
+
+  ReadAllGrupoFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: read_grupo_all/
+      Handler: app.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        GetAllIncidence:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApiGrupo
+            Path: /read_all_grupo
+            Method: get
+      Environment:
+        Variables:
+          MY_SECRET_NAME: !Ref MyRDSSecret
+          MY_AWS_REGION: "us-east-1"
+          S3_BUCKET: !Ref MyS3Bucket
+          DB_HOST: !GetAtt MyRDSInstance.Endpoint.Address
+
+
+
+
+
+
