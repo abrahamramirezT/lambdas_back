@@ -170,19 +170,7 @@
             <ErrorMessage name="fecha" class="text-red-500 text-sm" />
           </div>
 
-          <div class="mb-4">
-            <label for="estatus" class="block text-sm font-medium text-gray-700">Estatus:</label>
-            <Field
-              id="estatus"
-              name="estatus"
-              type="text"
-              v-model="form.estatus"
-              rules="required"
-              class="mt-1 p-2 w-full border rounded-md"
-              disabled
-            />
-            <ErrorMessage name="estatus" class="text-red-500 text-sm" />
-          </div>
+          
 
           <!-- Campo para Subir Imagen (Solo JPG) -->
           <div class="mb-4">
