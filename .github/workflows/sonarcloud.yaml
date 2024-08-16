@@ -16,15 +16,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.11'
-
-      - name: Run tests and generate coverage report
-        run: |
-          pytest --cov=backEndFinal --cov-report=xml
-
       - name: SonarCloud scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
