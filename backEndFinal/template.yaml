@@ -5,7 +5,7 @@ Description: >
 
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 2
     Runtime: python3.11
     Architectures:
       - x86_64
@@ -85,8 +85,7 @@ Resources:
       LogGroupName: "/aws/lambda/MyLogGroup"
       RetentionInDays: 14
 
-  # API Gateway
-
+  # API Gateway Indicencias CRUD
   MyApi:
     Type: "AWS::Serverless::Api"
     Properties:
