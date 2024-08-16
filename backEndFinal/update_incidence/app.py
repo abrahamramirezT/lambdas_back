@@ -77,14 +77,14 @@ def lambda_handler(event, context):
         if fto_url:
             sql = """
             UPDATE reportes_incidencias
-            SET estatus = %s 
+            SET estatus = %s , fto_url = %s
             WHERE id = %s
             """
             cursor.execute(sql, (estatus, fto_url, id))
         else:
             sql = """
             UPDATE reportes_incidencias
-            SET estatus = %s, fto_url = %s
+            SET estatus = %s 
             WHERE id = %s
             """
             cursor.execute(sql, (estatus, id))
